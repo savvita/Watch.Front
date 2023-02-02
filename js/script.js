@@ -7,6 +7,7 @@ let currentCategory;
 let currentPage;
 let filterName;
 let selectedProducers;
+let selectedCategories;
 let count;
 
 let watch;
@@ -168,11 +169,20 @@ function loadProducers(callback) {
 function initializeCategories() {
     loadCategories(() => {
         let container = $('#categoriesNav');
+        let sideContainer = $('#categoriesSideNav');
 
         for(category of categories) {
             container.append(`<button type="button" class="btn btn-outline-light rounded-0" data-id="${category.key.id}">${category.key.categoryName}</button>`);
+
+            sideContainer.append(`<div class="form-check bg-dark text-white pointer">
+                <input class="form-check-input pointer" type="checkbox" value="category" id="category${category.key.id}" data-id="${category.key.id}">
+                <label class="form-check-label text-start pointer" for="category${category.key.id}">${category.key.categoryName}
+                </label>
+                </div>`);
         }
+        $(`input[type="checkbox"][value="category"]`).change(filterCategories);
     });
+
 }
 
 function initializeProducers() {
@@ -181,13 +191,13 @@ function initializeProducers() {
 
         for(producer of producers) {
             sideContainer.append(`<div class="form-check bg-dark text-white pointer">
-                <input class="form-check-input pointer" type="checkbox" value="" id="producer${producer.key.id}" data-id="${producer.key.id}">
+                <input class="form-check-input pointer" type="checkbox" value="producer" id="producer${producer.key.id}" data-id="${producer.key.id}">
                 <label class="form-check-label text-start pointer" for="producer${producer.key.id}">${producer.key.producerName}
                 </label>
                 </div>`);
         }
 
-        $(`input[type="checkbox"]`).change(filterProducers);
+        $(`input[type="checkbox"][value="producer"]`).change(filterProducers);
     });
 }
 
@@ -433,8 +443,10 @@ async function clearBasket() {
 
 async function addBasketTable(basket) {
     let container = $('#basketcontainer');
+    let sum = 0;
 
     for(detail of basket.details) {
+        sum += detail.count * detail.unitPrice;
         let watch = await getWatch(detail.watchId);
 
         let img;
@@ -466,6 +478,7 @@ async function addBasketTable(basket) {
          </div>
       </div>`);
     }
+    container.append(`<h3>Total: ${sum} &#8372;</h3>`)
 }
 
 async function updateBasket() {
@@ -549,7 +562,7 @@ function filterProducers(e) {
 
     $('#breadcrumb_active').text(e.target.textContent);
 
-    let inputes = $('input[type="checkbox"]:checked');
+    let inputes = $('input[type="checkbox"][value="producer"]:checked');
     selectedProducers = [];
     for(ch of inputes) {
         let id = ch.getAttribute('data-id');
@@ -557,6 +570,25 @@ function filterProducers(e) {
     };
 
     loadWatches(1, currentCategory, filterName, selectedProducers);
+
+    return false;
+}
+
+function filterCategories(e) {
+    e.stopPropagation();
+
+    $('#searchTxt').val('');
+
+    $('#breadcrumb_active').text(e.target.textContent);
+
+    let inputes = $('input[type="checkbox"][value="category"]:checked');
+    selectedCategories = [];
+    for(ch of inputes) {
+        let id = ch.getAttribute('data-id');
+        selectedCategories.push(id);
+    };
+
+    loadWatches(1, null, filterName, selectedProducers);
 
     return false;
 }
@@ -569,6 +601,12 @@ function loadWatches(page, category, filterName, producers, isPopular) {
 
     if(category) {
         url += `&categoryIds=${category}`;
+    }
+
+    if(selectedCategories) {
+        for(prod of selectedCategories) {
+            url += `&categoryIds=${prod}`;
+        }
     }
 
     if(selectedProducers) {
@@ -645,7 +683,7 @@ function addCard(item) {
                 <p class="card-text">Producer: ${item.producer.producerName}</p>
                 </div>
                 <ul class="list-group list-group-flush">
-                <li class="list-group-item">Price: ${item.price}</li>
+                <li class="list-group-item">Price: ${item.price} &#8372;</li>
                 <button class="btn btn-success" onclick="addToBasket(event)">Buy</button>
                 </ul>
             </div>`;
@@ -970,7 +1008,7 @@ function loadOrders(isManager = false, isAll = false) {
                 setToken(response.token);
             }
 
-            if(response != null && response.value.length > 0) {
+            if(response != null) {
                 addOrdersTable(response.value, isManager);
             }
             
@@ -1126,6 +1164,7 @@ function addOrdersTable(orders, isManager) {
                             <th scope="col">UserId</th>
                             <th scope="col">Status</th>
                             <th scope="col">Details</th>
+                            <th scope="col">Total</th>
                             ${isManager ? '<th scope="col">Close</th>' : '<td></td>'}
                             <th scope="col">Cancel</th>
                         </tr>
@@ -1142,12 +1181,15 @@ function addOrdersTable(orders, isManager) {
 }
 
 function addOrderRow(container, order, isManager) {
+    let price = 0;
+    order.details.forEach(x => price += x.count * x.unitPrice);
     container.append(`<tr data-id="${order.id}">
     <th scope="row">${order.id}</th>
     <td>${order.date}</td>
     <td>${order.userId}</td>
     <td>${order.status.statusName}</td>
     <td id=${order.id}></td>
+    <td>${price} &#8372;</td>
     ${isManager && (order.status.id == 1 || order.status.id == 2) ? '<td><button class="btn btn-outline-light" onclick="closeOrder(event)">Close</button></td>' : '<td></td>'}
     ${order.status.id == 1 || order.status.id == 2 ? '<td><button class="btn btn-outline-light" onclick="cancelOrder(event)">Cancel</button></td>' : '<td></td>'}
 </tr>`);
@@ -1456,7 +1498,7 @@ function addWatchRow(watch){
       <td>${watch.available}</td>
       <td>${watch.sold}</td>
       <td>${watch.onSale}</td>
-      <td>${watch.price}</td>
+      <td>${watch.price} &#8372;</td>
       <td><input class="form-check-input" type="checkbox" value="ispopular" ${watch.isPopular == true ? 'checked' : ''} onclick="switchPopular(event)"></td>
       <td><img class="icon" src="images/edit_icon.svg" alt="Edit" onclick="showWatchForm(event)">
       <img class="icon" src="images/delete_icon.svg" alt="Delete" onclick="deleteWatches(event)">
