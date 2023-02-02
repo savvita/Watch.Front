@@ -105,11 +105,17 @@ function initializeManagerSidebar() {
 }
 
 function hasManagerRole() {
+    if(!sessionStorage.getItem(tokenKey)) {
+        return false;
+    }
     let token = parseJwt(sessionStorage.getItem(tokenKey));
     return Object.values(token)[2].includes('Manager');
 }
 
 function hasAdminRole() {
+    if(!sessionStorage.getItem(tokenKey)) {
+        return false;
+    }
     let token = parseJwt(sessionStorage.getItem(tokenKey));
     return Object.values(token)[2].includes('Admin');
 }
@@ -1120,7 +1126,7 @@ function addOrdersTable(orders, isManager) {
                             <th scope="col">UserId</th>
                             <th scope="col">Status</th>
                             <th scope="col">Details</th>
-                            ${isManager ? '<th scope="col">Close</th>' : ''}
+                            ${isManager ? '<th scope="col">Close</th>' : '<td></td>'}
                             <th scope="col">Cancel</th>
                         </tr>
                         </thead>
