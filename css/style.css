@@ -1,0 +1,21 @@
+.pointer {
+    cursor: pointer;
+}
+
+img {
+    width: 50px;
+    height: 300px;
+    object-fit: cover;
+}
+
+img.icon {
+    width: 30px;
+    height: auto;
+    cursor: pointer;
+}
+
+img.small {
+    width: 80px;
+    max-height: 100px;
+    object-fit: contain;
+}

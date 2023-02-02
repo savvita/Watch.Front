@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.2/jquery.min.js" integrity="sha512-tWHlutFnuG0C6nQRlpvrEhE4QpkG1nn2MOUMWmUeRePl4e3Aki0VB6W1v3oLjFtd0hVOtRQ9PHpSfN6u6/QXkQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <script src="js/script.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', about);
+        </script>
+    <title>Watch. About</title>
+</head>
+<body>
+    <body class="bg-dark">
+        <div class="container bg-dark p-0">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container-fluid p-3">
+                <a class="navbar-brand fs-1 fw-weight-bold" href="index.html">Watch Market</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            My account
+                        </a>
+                        <ul id="accountNav" class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
+                        </ul>
+                    </li>
+                    </ul>
+                    <form class="d-flex">
+                    <input id="searchTxt" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button id="searchBtn" class="btn btn-outline-light">Search</button>
+                    </form>
+
+                </div>
+            </div>
+        </nav>
+        <div class="d-flex justify-content-between pe-6">
+            <p id="user" class="text-white"></p>
+            <img class="icon cursor" src="images/basket_icon.png" alt="Basket" title="Basket" onclick="showBasketForm()">
+        </div>
+
+            <div id="categoriesNav" class="btn-group p-0 mb-2 d-flex justify-content-center" role="group" aria-label="Categories nav" onclick="filterCategory(event)"></div>
+
+            <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="index.html" class=" text-white">Home</a></li>
+                  <li id="breadcrumb_active" class="breadcrumb-item active" aria-current="page">About</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="container bg-dark border-1 border-top border-light">            
+            <div class="row">
+                <div class="col-sm-12">
+                    <div id="container" class="d-flex flex-wrap flex-row justify-content-center">
+                        <h2 class="text-white">Lorem Ipsum</h2>
+                        
+
+<p class="text-white">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut dolor fermentum mi vehicula venenatis. Integer id enim orci. Vivamus eget pellentesque nisl. Nam vel nisl sem. Nam mollis aliquam enim. Praesent ut ullamcorper neque. Nam quis molestie massa, ac molestie ipsum. Cras in felis quam. Pellentesque tristique lobortis ultrices. Donec sit amet porta velit, et venenatis est. Etiam convallis tellus elit, ut pharetra nunc scelerisque non.</p>
+<p class="text-white">Quisque dapibus feugiat mi, a tempus tortor. Aenean nibh ex, maximus id suscipit in, mollis sit amet mauris. Quisque tempor nisi vitae lectus euismod finibus. Integer a urna et mi volutpat aliquet. Cras iaculis justo vitae lectus lacinia, ut lobortis sapien ultrices. Etiam sit amet massa imperdiet, semper sapien eu, tincidunt ante. Duis accumsan luctus molestie. Nunc ut venenatis justo. Maecenas felis diam, placerat non maximus in, sollicitudin a nibh. Curabitur consectetur aliquam purus, at gravida mauris venenatis ac. Sed ut enim odio. Etiam ut bibendum ex.</p>
+<p class="text-white">Sed congue laoreet sagittis. Donec a augue posuere, volutpat nulla in, blandit sapien. Donec blandit mauris vel sem fermentum fringilla. Integer porttitor porttitor dui, eget pulvinar lorem malesuada in. Aliquam faucibus, enim porta facilisis bibendum, arcu felis tincidunt tortor, non dignissim nulla felis in mi. Pellentesque ac eros imperdiet, porttitor nibh nec, auctor purus. Nulla facilisi. Proin egestas sed nibh a interdum.</p>
+<p class="text-white">Suspendisse volutpat suscipit leo, eu venenatis eros congue in. Mauris iaculis feugiat dictum. Vivamus efficitur consequat turpis sed cursus. Cras mollis leo eros, ut vehicula orci tempus commodo. Integer vel consectetur justo. Praesent a velit sit amet erat sollicitudin viverra. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Cras turpis purus, vehicula in egestas vel, sodales eget est. Nunc nec ornare sem, non pellentesque magna.</p>
+<p class="text-white">Ut libero ligula, dictum et facilisis sit amet, condimentum quis orci. Donec pellentesque tincidunt dui eget tincidunt. Etiam dapibus turpis dolor, cursus venenatis est feugiat in. Duis nec dolor facilisis, suscipit mauris eu, luctus sem. Quisque sed tellus in ante finibus venenatis. Nam velit urna, varius at nisl sed, elementum facilisis magna. Ut purus risus, semper non nisl ut, finibus ultricies felis. Vestibulum ut pellentesque lorem, quis fermentum mi. Vivamus sit amet semper nibh. In tincidunt urna felis, ut mattis est lobortis eu. Duis a est non purus scelerisque condimentum a in libero. Suspendisse vitae nisi ipsum. Morbi nec nisl ac odio fermentum malesuada. Sed feugiat eu mi vitae aliquam. In tristique est sapien, nec porta est consequat ut.</p>
+<p class="text-white">Nulla dignissim ex id felis gravida, nec accumsan felis condimentum. Aenean maximus eu eros in consequat. Suspendisse sagittis metus vel erat egestas, ut posuere dolor convallis. Praesent malesuada dui in lacus varius vehicula in sed ex. Aenean congue et ligula in varius. Morbi ullamcorper sollicitudin sapien in dictum. Cras pellentesque leo a magna mattis tempus.</p>
+<p class="text-white">Curabitur vulputate augue sed ultricies fermentum. Vivamus scelerisque libero mauris, at varius elit consequat vitae. Sed eu lectus interdum, tempor diam ac, rutrum mi. Cras vulputate ligula non lorem aliquet dignissim. Sed eros purus, tincidunt eu porta sed, commodo et mauris. Sed gravida dui tincidunt ante cursus mattis. Nulla enim ipsum, imperdiet in egestas non, condimentum a dolor. Maecenas felis metus, egestas id ligula eget, condimentum luctus urna. Sed justo nulla, ultrices ac iaculis id, feugiat vel quam. In pulvinar pretium feugiat. Aliquam elementum magna nec eros tempus volutpat. Sed dictum elit ac elementum fringilla. In hac habitasse platea dictumst. Morbi ut lorem tortor. Integer eget lorem libero.</p>
+<p class="text-white">In at pretium nibh. Nulla convallis velit at diam varius, at pretium dolor pellentesque. Mauris varius pretium enim a tempus. Aliquam placerat dui sem, ac interdum est vestibulum vel. Sed vitae nisl rhoncus est commodo consequat nec quis arcu. Nulla massa lacus, scelerisque a neque ac, tempor lacinia libero. Nullam posuere, ante eget ultrices pulvinar, sem ligula luctus tortor, quis egestas lorem est ac elit.</p>
+<p class="text-white">Maecenas ultrices erat a mi vulputate, quis porttitor libero dignissim. Donec sagittis, nisi non facilisis consectetur, nisi leo tempus nunc, vitae consectetur metus lectus a tellus. Etiam sit amet tempor risus. Nulla luctus dolor id massa laoreet ultricies. Maecenas elementum, ipsum vitae rhoncus pharetra, ipsum velit elementum est, vel consequat est enim eget lacus. Nunc eu dui ac libero interdum pretium in eu massa. Praesent porta pellentesque enim, vitae aliquet lacus. Vivamus sodales interdum nulla non vulputate. Maecenas scelerisque diam consequat velit placerat laoreet. Suspendisse porta, est sed lobortis pellentesque, lectus felis molestie eros, non eleifend neque leo et orci. Sed mattis, tortor nec ultrices molestie, augue ex pretium magna, eget imperdiet neque justo in orci. Quisque a sapien ac justo tincidunt tincidunt non et lorem.</p>
+<p class="text-white">Vivamus massa lectus, ullamcorper at posuere nec, faucibus id nisi. Duis dapibus egestas nisi, a euismod quam mattis vel. Cras facilisis est sed sollicitudin eleifend. Vivamus commodo ex sed cursus molestie. Aenean mattis sodales aliquam. Duis ornare ante sed augue dapibus tristique. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    </div>
+                    <duv id="errorText" class="text-white"></duv>
+                </div>
+            </div> 
+        </div>
+
+        <div class="bg-dark m-0 p-5 border-top border-1 border-light text-white text-center">
+            <p>&copy; Don't copy please</p>
+        </div>
+
+        <div id="loginForm" class="position-absolute top-50 start-50 translate-middle bg-dark border border-1 border-light rounded-1 w-50  text-white p-5" style="z-index: 2000;">
+            <form>
+                <div class="row">
+                    <div class="row mb-3">
+                        <label for="signin_login" class="col-sm-2 col-form-label">Login</label>
+                        <div class="col-sm-10">
+                            <input id="signin_login" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="signin_password" class="col-sm-2 col-form-label">Password</label>
+                        <div class="col-sm-10">
+                            <input id="signin_password" type="password" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <p id="signInErrorTxt" class="text-white">&nbsp;</p>
+                <div class="row flex justify-content-center">
+                    <button id="signInBtn" class="btn btn-outline-light m-3 mb-0" style="width: 10rem;">Login</button>
+                    <button id="cancelSignInBtn" class="btn btn-outline-light m-3 mb-0" style="width: 10rem;">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="registerForm" class="position-absolute top-50 start-50 translate-middle bg-dark border border-1 border-light rounded-1 w-50  text-white p-5" style="z-index: 2000;">
+            <form>
+                <div class="row">
+                    <div class="row mb-3">
+                        <label for="signup_login" class="col-sm-2 col-form-label">Login</label>
+                        <div class="col-sm-10">
+                            <input id="signup_login" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="signup_email" class="col-sm-2 col-form-label">Email</label>
+                        <div class="col-sm-10">
+                            <input id="signup_email" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="signup_password" class="col-sm-2 col-form-label">Password</label>
+                        <div class="col-sm-10">
+                            <input id="signup_password" type="password" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="signup_password_confirm" class="col-sm-2 col-form-label">Confirm password</label>
+                        <div class="col-sm-10">
+                            <input id="signup_password_confirm" type="password" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <p id="signUpErrorTxt" class="text-white">&nbsp;</p>
+                <div class="row flex justify-content-center">
+                    <button id="signUpBtn" class="btn btn-outline-light m-3 mb-0" style="width: 10rem;">Register</button>
+                    <button id="cancelSignUpBtn" class="btn btn-outline-light m-3 mb-0" style="width: 10rem;">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+    </body>
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.2/jquery.min.js" integrity="sha512-tWHlutFnuG0C6nQRlpvrEhE4QpkG1nn2MOUMWmUeRePl4e3Aki0VB6W1v3oLjFtd0hVOtRQ9PHpSfN6u6/QXkQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <script src="js/script.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', manager);
+        </script>
+    <title>Watch.Manager</title>
+</head>
+<body>
+    <body class="bg-dark">
+        <div class="container bg-dark p-0">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container-fluid p-3">
+                <a class="navbar-brand fs-1 fw-weight-bold" href="index.html">Watch Market</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                My account
+                            </a>
+                            <ul id="accountNav" class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                </div>
+                <h2 class="text-white">Manager Mode</h2>
+            </div>
+        </nav>
+        <p id="user" class="text-white"></p>
+
+        </div>
+        <div class="container bg-dark border-1 border-top border-light">            
+            <div class="row">
+                <div id="sidebar" class="col-md-3 col-sm-12 btn-group-vertical p-0 mb-2 d-flex justify-content-center me-0 align-items-start align-self-start" role="group">
+                </div>
+                <div class="col-md-9 col-sm-12">
+                    <div id="container" class="d-flex flex-wrap flex-row justify-content-center"></div>
+                    <duv id="errorText" class="text-white"></duv>
+
+                    <nav aria-label="Pagination">
+                        <ul id="pagination" class="pagination justify-content-center">
+                        </ul>
+                      </nav>
+                </div>
+            </div> 
+        </div>
+
+        <div class="bg-dark m-0 p-5 border-top border-1 border-light text-white text-center">
+            <p>&copy; Don't copy please</p>
+        </div>
+
+        <div id="loginForm" class="position-absolute top-50 start-50 translate-middle bg-dark border border-1 border-light rounded-1 w-50  text-white p-5" style="z-index: 2000;">
+            <form>
+                <div class="row">
+                    <div class="row mb-3">
+                        <label for="signin_login" class="col-sm-2 col-form-label">Login</label>
+                        <div class="col-sm-10">
+                            <input id="signin_login" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="signin_password" class="col-sm-2 col-form-label">Password</label>
+                        <div class="col-sm-10">
+                            <input id="signin_password" type="password" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <p id="signInErrorTxt" class="text-white">&nbsp;</p>
+                <div class="row flex justify-content-center">
+                    <button id="signInBtn" class="btn btn-outline-light m-3 mb-0" style="width: 10rem;">Login</button>
+                    <button id="cancelSignInBtn" class="btn btn-outline-light m-3 mb-0" style="width: 10rem;">Cancel</button>
+                </div>
+            </form>
+        </div>
+        <div id="watchForm" class="position-absolute top-50 start-50 translate-middle bg-dark border border-1 border-light rounded-1 w-50  text-white p-5" style="z-index: 2000;">
+            <form>
+                <div class="row">
+                    <input id="watchId" type="text" class="d-none">
+                    <div class="row mb-3">
+                        <label for="watchProducer" class="col-sm-2 col-form-label">Producer</label>
+                        <div class="col-sm-10 mt-3">
+                            <select class="form-select" id="watchProducer">
+                                <option selected value="0">Choose...</option>
+                            </select>
+                        </div> 
+                    </div>
+                    <div class="row mb-3">
+                        <label for="watchModel" class="col-sm-2 col-form-label">Model</label>
+                        <div class="col-sm-10">
+                            <input id="watchModel" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="watchCategory" class="col-sm-2 col-form-label">Category</label>
+                        <div class="col-sm-10 mt-3">
+                            <select class="form-select" id="watchCategory">
+                                <option selected value="0">Choose...</option>
+                            </select>
+                        </div>  
+                    </div>
+                    <div class="row mb-3">
+                        <label for="watchAvailable" class="col-sm-2 col-form-label">Available</label>
+                        <div class="col-sm-10">
+                            <input id="watchAvailable" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="watchPrice" class="col-sm-2 col-form-label">Price</label>
+                        <div class="col-sm-10">
+                            <input id="watchPrice" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="watchImage" class="col-sm-2 col-form-label">Image URL</label>
+                        <div class="col-sm-10">
+                            <input id="watchImage" type="text" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <p id="watchErrorTxt" class="text-white">&nbsp;</p>
+                <div class="row flex justify-content-center">
+                    <button id="okWatchBtn" class="btn btn-outline-light m-3 mb-0" style="width: 10rem;">Ok</button>
+                    <button id="cancelWatchBtn" class="btn btn-outline-light m-3 mb-0" style="width: 10rem;">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="categoryForm" class="position-absolute top-50 start-50 translate-middle bg-dark border border-1 border-light rounded-1 w-50  text-white p-5" style="z-index: 2000;">
+            <form>
+                <div class="row">
+                    <input id="categoryId" type="text" class="d-none">
+                    <div class="row mb-3">
+                        <label for="categoryName" class="col-sm-4 col-form-label">Category name</label>
+                        <div class="col-sm-8">
+                            <input id="categoryName" type="text" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <p id="categoryErrorTxt" class="text-white">&nbsp;</p>
+                <div class="row flex justify-content-center">
+                    <button id="okCategoryBtn" class="btn btn-outline-light m-3 mb-0" style="width: 10rem;">Ok</button>
+                    <button id="cancelCategoryBtn" class="btn btn-outline-light m-3 mb-0" style="width: 10rem;">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="producerForm" class="position-absolute top-50 start-50 translate-middle bg-dark border border-1 border-light rounded-1 w-50  text-white p-5" style="z-index: 2000;">
+            <form>
+                <div class="row">
+                    <input id="producerId" type="text" class="d-none">
+                    <div class="row mb-3">
+                        <label for="producerName" class="col-sm-4 col-form-label">Producer name</label>
+                        <div class="col-sm-8">
+                            <input id="producerName" type="text" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <p id="producerErrorTxt" class="text-white">&nbsp;</p>
+                <div class="row flex justify-content-center">
+                    <button id="okProducerBtn" class="btn btn-outline-light m-3 mb-0" style="width: 10rem;">Ok</button>
+                    <button id="cancelProducerBtn" class="btn btn-outline-light m-3 mb-0" style="width: 10rem;">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </body>
+</body>
+</html>
