@@ -1,5 +1,5 @@
-//const api = 'https://localhost:7231/api';
-const api = 'http://sssvvvttt-001-site1.itempurl.com/api';
+const api = 'https://localhost:7231/api';
+//const api = 'http://sssvvvttt-001-site1.itempurl.com/api';
 const tokenKey = "token";
 const perPage = 2;
 
@@ -14,6 +14,9 @@ let watch;
 let category;
 let producer;
 let user;
+
+
+let isManagerMode;
 
 function index() {
     initializeCategories();
@@ -31,6 +34,8 @@ function index() {
     else {
         setAccountMenu(false);
     }
+
+    isManagerMode = false;
 }
 
 function about() {
@@ -59,11 +64,13 @@ function manager() {
     let isManager = hasManagerRole();
 
     if(isManager) {
+        isManagerMode = true;
         $('#loginForm').hide(0);
         initializeManagerSidebar();
     }
 
     else {
+        isManagerMode = false;
         showSignIn();
     }
     initializeButtons();
@@ -864,7 +871,7 @@ function setAccountMenu(isLogged) {
     let nav = $('#accountNav');
     nav.empty();
     if(isLogged) {
-        nav.append(`<li><a class="dropdown-item" href="#" onclick="loadOrders()">My orders</a></li>`);
+        nav.append(`<li><a class="dropdown-item" href="#" onclick="loadMyOrders(false)">My orders</a></li>`);
 
         if(hasManagerRole()) {
             nav.append(`<li><a class="dropdown-item" href="manager.html">Manager mode</a></li>`);
@@ -873,13 +880,17 @@ function setAccountMenu(isLogged) {
         if(hasAdminRole()) {
             nav.append(`<li><a class="dropdown-item" href="admin.html">Admin mode</a></li>`);
         }
-        // nav.append(`<li><a class="dropdown-item" href="account.html">My profile</a></li>`);
         nav.append(`<li><a class="dropdown-item" href="#" onclick="logOut()">Log out</a></li>`);
     }
     else {
         nav.append(`<li><a class="dropdown-item" href="#" onclick="showSignIn()">Log in</a></li>`);
         nav.append(`<li><a class="dropdown-item" href="#" onclick="showSignUp()">Register</a></li>`);
     }
+}
+
+function loadMyOrders() {
+    isManagerMode = false;
+    loadOrders();
 }
 
 function showSignIn() {
@@ -984,7 +995,7 @@ function loadProducersTable() {
     });
 }
 
-function loadOrders(isManager = false, isAll = false) {
+function loadOrders(isManager = false) {
     let container = $('#container');
     container.empty();
 
@@ -992,7 +1003,7 @@ function loadOrders(isManager = false, isAll = false) {
 
     let url = `${api}/orders`;
 
-    if(isAll) {
+    if(isManager) {
         url += '/all'
     }
 
@@ -1197,14 +1208,13 @@ function addOrderRow(container, order, isManager) {
     order.details.forEach(x => $(`#${order.id}`).append(`<p>Watch Id: ${x.watchId}</p>`));
 }
 
+
 async function cancelOrder(event) {
     orderId = event.target.closest('tr').getAttribute('data-id');
     event.stopPropagation();
 
-    let order;
-
-    await $.ajax({
-        type: 'GET',
+    $.ajax({
+        type: 'DELETE',
         url: `${api}/orders/${orderId}`,
         headers: {
           'Authorization': "Bearer " + getToken()
@@ -1216,38 +1226,8 @@ async function cancelOrder(event) {
                     setToken(response.token);
                 }
 
-                order = response.value;
-            }
-            
-            else  {
-            }
-        },
-        error: data => {
-        }
-    });
-
-    if(!order) {
-        return;
-    }
-    order.status.id = 4;
-    $.ajax({
-        type: 'PUT',
-        url: `${api}/orders`,
-        data: JSON.stringify(order),
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': "Bearer " + getToken()
-        },
-
-
-        success: response => {
-            if(response.value != null) {
-                if(response.token) {
-                    setToken(response.token);
-                }
-
-                loadOrders(hasManagerRole());
+                console.log(isManagerMode);
+                loadOrders(isManagerMode);
             }
             
             else  {
@@ -1264,7 +1244,7 @@ async function closeOrder(event) {
 
    
     $.ajax({
-        type: 'DELETE',
+        type: 'PUT',
         url: `${api}/orders/${orderId}`,
         headers: {
           'Authorization': "Bearer " + getToken()
@@ -1277,9 +1257,9 @@ async function closeOrder(event) {
                     setToken(response.token);
                 }
 
-                let isManager = hasManagerRole();
+                //let isManager = hasManagerRole();
 
-                loadOrders(isManager, isManager);
+                loadOrders(isManagerMode);
             }
             
             else  {
