@@ -1,0 +1,5 @@
+@media (max-width: 770px) {
+    input[name="search"] {
+        margin-top: 20px
+    }
+}
