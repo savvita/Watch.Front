@@ -3,13 +3,13 @@ import { Button, ButtonGroup } from 'reactstrap';
 
 import './CategoriesNav.css';
 
-const CategoriesNav = ({ categories, onClick }) => {
+const CategoriesNav = ({ categories, onCategoryChange }) => {
     const sm = 770;
 
     return ( 
         <MediaQuery minWidth={ sm }>
             <ButtonGroup className="p-3 mb-2 d-flex justify-content-center">
-                { categories.map(category => <Button key={ category.key.id } color="light" outline onClick={ onClick }>{ category.key.categoryName }</Button>) }
+                { categories.map(category => <Button key={ category.id } color="light" outline onClick={ () => onCategoryChange && onCategoryChange(category.id) }>{ category.value }</Button>) }
             </ButtonGroup>
         </MediaQuery>
     );

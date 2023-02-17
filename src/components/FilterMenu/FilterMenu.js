@@ -8,7 +8,7 @@ const FilterMenu = ({ title, items, onChange }) => {
                 { 
                     items && items.map(item => 
                         <FormGroup key={ item.id } check className="pointer">
-                            <Input type="checkbox" id={ `${title}${item.id}` } className="pointer" onChange={ (e) => onChange && onChange(item.id, e.target.checked) } />
+                            <Input type="checkbox" id={ `${title}${item.id}` } className="pointer" onChange={ () => onChange && onChange(item.id) } checked={ item.isChecked } />
                             {' '}
                             <Label check for={ `${title}${item.id}` } className="pointer">
                                 { item.value }

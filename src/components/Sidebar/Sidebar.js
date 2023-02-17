@@ -11,9 +11,9 @@ const Sidebar = ({ categories, producers, onCategoryChange, onProducerChange, on
             <div>
                 <PriceFilterMenu onBlur={ onMinMaxPriceChange } />
 
-                <FilterMenu title="Producers" onChange={ onProducerChange } items={ producers && producers.map(producer => { return { id: producer.key.id, value: producer.key.producerName }})} />
+                <FilterMenu title="Producers" onChange={ onProducerChange } items={ producers } />
 
-                <FilterMenu title="Categories" onChange={ onCategoryChange } items={ categories && categories.map(category => { return { id: category.key.id, value: category.key.categoryName }})} />
+                <FilterMenu title="Categories" onChange={ onCategoryChange } items={ categories } />
             </div>
         </Col>
     );
