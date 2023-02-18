@@ -66,11 +66,7 @@ const Header = ({ onSearch, onBasketClick }) => {
                             <AccountMenu user={ user } onSignIn={ onSignIn } onSignUp={ onSignUp } onLogOut={ onLogOut } />
                         </Nav>
                     </Collapse>
-                    <Input
-                        name="search"
-                        placeholder="Search"
-                        type="search"
-                        onChange={ (e) => onSearch(e.target.value) } />
+                    <Input name="search" placeholder="Search" type="search" onInput={ (e) => onSearch && onSearch(e.target.value) } />
                 </Navbar>
                 <div className="d-flex justify-content-end pe-6">
                     <p className="text-white pe-4">{ user.username !== '' && `Hello, ${ user.username }` }</p>

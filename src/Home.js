@@ -4,7 +4,6 @@ import Content from './components/Content/Content';
 import Footer from './components/Footer/Footer';
 import CategoriesNav from './components/CategoriesNav/CategoriesNav';
 import db from './database';
-import token from './token';
 
 import { useState, useEffect } from 'react';
 
@@ -15,10 +14,11 @@ import './Home.css';
 function Home() {
     const [categories, setCategories] = useState([]);
     const [producers, setProducers] = useState([]);
-    // const [user, setUser] = useState(token.getUserInfo());
 
     const [minPrice, setMinPrice] = useState(null);
     const [maxPrice, setMaxPrice] = useState(null);
+    
+    const [searchTxt, setSearchTxt] = useState(null);
 
     useEffect(() => {
         const loadCategories = async () => {
@@ -70,13 +70,17 @@ function Home() {
         setMaxPrice(null);
     }
 
+    const onSearch = (value) => {
+        setSearchTxt(value);
+    }
+
 
     return <div className="d-flex flex-column page-container">
-                <Header />
+                <Header onSearch={ onSearch } />
                 <CategoriesNav categories={ categories } onCategoryChange={ onCategoryChange } />
                 <Row className="ps-4 flex-grow-1">
                     <Sidebar categories={ categories } producers={ producers } onCategoryChange={ onCategoriesChange } onProducerChange={ onProducersChange } onMinMaxPriceChange={ onMinMaxPriceChange } />
-                    <Content perPage='2' categories={ categories } producers={ producers } minPrice={ minPrice } maxPrice={ maxPrice } />
+                    <Content perPage='2' model={ searchTxt } categories={ categories } producers={ producers } minPrice={ minPrice } maxPrice={ maxPrice } />
                 </Row>
                 <Footer />
             </div>
