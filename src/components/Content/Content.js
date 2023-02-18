@@ -27,14 +27,13 @@ const Content = ({ perPage, categories, producers, model, minPrice, maxPrice }) 
             setErrorTxt("");
             setWatches(w.value);
             setHits(w.hits);
-            setCurrentPage(page);
-            
+            setCurrentPage(page);       
         }
     }
 
     useEffect(() => {
         loadWatches(currentPage);
-    });
+    }, [perPage, categories, producers, model, minPrice, maxPrice, hits]);
 
     const onPageClick = async (page) => {
         await loadWatches(page);

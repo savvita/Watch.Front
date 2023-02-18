@@ -1,8 +1,6 @@
 import MediaQuery from 'react-responsive'
 import { Button, ButtonGroup } from 'reactstrap';
 
-import './CategoriesNav.css';
-
 const CategoriesNav = ({ categories, onCategoryChange }) => {
     const sm = 770;
 

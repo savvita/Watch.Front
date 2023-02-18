@@ -16,7 +16,7 @@ const Pagination = ({ hits, perPage, currentPage, onPageClick, onPrevClick, onNe
         }
 
         setPages(pages);
-    }, [ hits, perPage, currentPage, count, pages]);
+    }, [hits]);
 
 
     return (
@@ -24,9 +24,9 @@ const Pagination = ({ hits, perPage, currentPage, onPageClick, onPrevClick, onNe
             <PaginationItem>
                 { current !== 1 && <PaginationLink href="#" previous className="bg-dark text-white rounded-0" onClick={ (e) => { e.preventDefault(); onPrevClick && onPrevClick(); } } /> }
             </PaginationItem>
-
-            { pages.map((page => page === current ? <PaginationItem key={ page } active><PaginationLink href="#" onClick={ (e) => { e.preventDefault(); onPageClick && onPageClick(page); } } className="bg-dark text-white rounded-0">{ page }</PaginationLink></PaginationItem> : <PaginationItem key={ page }><PaginationLink href="#" onClick={ (e) => { e.preventDefault(); onPageClick && onPageClick(page); } }  className="bg-dark text-white rounded-0">{ page }</PaginationLink></PaginationItem> )) }
            
+            { pages.map((page => <PaginationItem key={ page } active={ page === current }><PaginationLink href="#" onClick={ (e) => { e.preventDefault(); onPageClick && onPageClick(page); } } className="bg-dark text-white rounded-0">{ page }</PaginationLink></PaginationItem>)) }
+
             <PaginationItem>
                 { current !== count && <PaginationLink href="#" next  className="bg-dark text-white rounded-0" onClick={ (e) => { e.preventDefault(); onNextClick && onNextClick(); } } /> }
             </PaginationItem>
