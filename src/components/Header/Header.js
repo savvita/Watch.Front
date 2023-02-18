@@ -1,5 +1,10 @@
+import Authorization from '../Authorization/Authorization';
+import token from '../../token';
+
 import React, { useState } from 'react';
 import AccountMenu from '../AccountMenu/AccountMenu';
+
+
 import {
   Collapse,
   Navbar,
@@ -7,19 +12,46 @@ import {
   NavbarBrand,
   Nav,
   Input,
+  NavLink
 } from 'reactstrap';
 
 import { NavLink as RRNavLink } from 'react-router-dom';
-import { NavLink } from 'reactstrap';
 
 import { FaShoppingBasket } from 'react-icons/fa';
 
 import './Header.css';
 
 
-function Header ({ username, isUser, isManager, isAdmin, onSearch, onBasketClick }) {
+const Header = ({ onSearch, onBasketClick }) => {
+    const [user, setUser] = useState(token.getUserInfo());
     const [collapsed, setCollapsed] = useState(true);
     const toggleNavbar = () => setCollapsed(!collapsed);
+
+    const [modal, setModal] = useState(false);
+    const [isSignIn, setMode] = useState(true);
+
+    const onCancel = () => {
+        setModal(false);
+    }
+
+    const onLogOut = () => {
+        setUser(token.logOut());
+    }
+
+    const onSignIn = () => {
+        setMode(true);
+        setModal(true);
+    }
+
+    const onSignUp = () => {
+        setMode(false);
+        setModal(true);
+    }
+
+    const onAuthorize = () => {
+        setModal(false);
+        setUser(token.getUserInfo());
+    }
 
 
     return <header>
@@ -31,7 +63,7 @@ function Header ({ username, isUser, isManager, isAdmin, onSearch, onBasketClick
                             <NavLink tag={RRNavLink} to="/">Home</NavLink>
                             <NavLink tag={RRNavLink} to="/about">About</NavLink>
 
-                            <AccountMenu isLogged={ username !== "" } isUser={ isUser } isManager={isManager } isAdmin={ isAdmin } />
+                            <AccountMenu user={ user } onSignIn={ onSignIn } onSignUp={ onSignUp } onLogOut={ onLogOut } />
                         </Nav>
                     </Collapse>
                     <Input
@@ -41,18 +73,13 @@ function Header ({ username, isUser, isManager, isAdmin, onSearch, onBasketClick
                         onChange={ (e) => onSearch(e.target.value) } />
                 </Navbar>
                 <div className="d-flex justify-content-end pe-6">
-                    <p className="text-white pe-4">{ username && `Hello, ${ username }` }</p>
+                    <p className="text-white pe-4">{ user.username !== '' && `Hello, ${ user.username }` }</p>
                     <FaShoppingBasket style={{ marginRight: '20px' }} onClick={ onBasketClick } />
                 </div>
 
+                <Authorization isVisible={ modal } onCancel = { onCancel } signIn={ isSignIn } signUp={ !isSignIn } onOk={ onAuthorize } />
+
         </header>
 }
-
-Header.defaultProps = {
-    username: "",
-    isUser: false,
-    isManager: false,
-    isAdmin: false
-};
 
 export default Header;
