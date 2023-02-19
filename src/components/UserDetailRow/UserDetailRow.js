@@ -25,7 +25,7 @@ const UserDetailRow = ({ user, onUpdate, onEdit, onDelete }) => {
 
     return (
         <tr>
-            <th scope="row">${user.id}</th>
+            <th scope="row">{ user.id }</th>
             <td>{ user.userName }</td>
             <td>{ user.email }</td>
             <td><FormGroup switch><Input type="switch" checked={ isManager } onChange={ switchManagerRole } /></FormGroup></td>

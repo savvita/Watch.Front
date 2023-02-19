@@ -1,9 +1,9 @@
 import Authorization from '../Authorization/Authorization';
+import AccountMenu from '../AccountMenu/AccountMenu';
 import Basket from '../Basket/Basket';
 import token from '../../token';
 
 import React, { useEffect, useState } from 'react';
-import AccountMenu from '../AccountMenu/AccountMenu';
 
 
 import {
@@ -16,7 +16,7 @@ import {
   NavLink
 } from 'reactstrap';
 
-import { NavLink as RRNavLink } from 'react-router-dom';
+import { NavLink as RRNavLink, useLocation } from 'react-router-dom';
 
 import { FaShoppingBasket } from 'react-icons/fa';
 
@@ -24,6 +24,7 @@ import './Header.css';
 
 
 const Header = ({ onSearch, buyAdded, onBasketClosed }) => {
+    const location = useLocation();
     const [user, setUser] = useState(token.getUserInfo());
     const [collapsed, setCollapsed] = useState(true);
     const toggleNavbar = () => setCollapsed(!collapsed);
@@ -81,7 +82,7 @@ const Header = ({ onSearch, buyAdded, onBasketClosed }) => {
                             <AccountMenu user={ user } onSignIn={ onSignIn } onSignUp={ onSignUp } onLogOut={ onLogOut } />
                         </Nav>
                     </Collapse>
-                    <Input name="search" placeholder="Search" type="search" onInput={ (e) => onSearch && onSearch(e.target.value) } />
+                    { location.pathname === '/' && <Input name="search" placeholder="Search" type="search" onInput={ (e) => onSearch && onSearch(e.target.value) } /> }
                 </Navbar>
                 <div className="d-flex justify-content-end pe-6">
                     <p className="text-white pe-4">{ user.username !== '' && `Hello, ${ user.username }` }</p>

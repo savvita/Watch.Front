@@ -69,6 +69,30 @@ const getWatches = async (page, model, categories, producers, minPrice, maxPrice
     return results;
 }
 
+const getAllWatches = async () => {
+    let results = {};
+
+    await fetch(`${api}/watches`, {
+                method: 'get',
+                headers: {
+                    'Authorization': `Bearer ${token.getToken()}`
+                }
+            })
+            .then(response => response.json())
+            .then(response => {
+                if(response.token) {
+                    token.setToken(response.token);
+                }
+
+                results = response;
+            })
+            .catch(response => {
+                results = undefined;
+            });
+
+    return results;
+}
+
 const getWatch = async (id) => {
     let results = {};
 
@@ -471,6 +495,222 @@ const updateUser = async (user) => {
 
     return results;
 }
+
+const updateCategory = async (category) => {
+    if(!token.getToken()) {
+        return undefined;
+    }
+
+    let results = {};
+
+    await fetch(`${api}/categories`, {
+        method: 'put',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + token.getToken()
+        },
+        body: JSON.stringify(category),
+    })
+    .then(response => response.json())
+    .then(response => {
+        if(response.token) {
+            token.setToken(response.token);
+        }
+        
+        results = response;
+    })
+    .catch(response => {
+        results = undefined;
+    });
+
+    return results;
+}
+
+const updateProducer = async (producer) => {
+    if(!token.getToken()) {
+        return undefined;
+    }
+
+    let results = {};
+
+    await fetch(`${api}/producers`, {
+        method: 'put',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + token.getToken()
+        },
+        body: JSON.stringify(producer),
+    })
+    .then(response => response.json())
+    .then(response => {
+        if(response.token) {
+            token.setToken(response.token);
+        }
+        
+        results = response;
+    })
+    .catch(response => {
+        results = undefined;
+    });
+
+    return results;
+}
+
+const updateWatch = async (watch) => {
+    if(!token.getToken()) {
+        return undefined;
+    }
+
+    let results = {};
+
+    await fetch(`${api}/watches`, {
+        method: 'put',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + token.getToken()
+        },
+        body: JSON.stringify(watch),
+    })
+    .then(response => response.json())
+    .then(response => {
+        if(response.token) {
+            token.setToken(response.token);
+        }
+        
+        results = response;
+    })
+    .catch(response => {
+        results = undefined;
+    });
+
+    return results;
+}
+
+const restoreWatch = async (id) => {
+    if(!token.getToken()) {
+        return undefined;
+    }
+
+    let results = {};
+
+    await fetch(`${api}/watches/restore/${id}`, {
+        method: 'put',
+        headers: {
+            'Authorization': "Bearer " + token.getToken()
+        }
+    })
+    .then(response => response.json())
+    .then(response => {
+        if(response.token) {
+            token.setToken(response.token);
+        }
+        
+        results = response;
+    })
+    .catch(response => {
+        results = undefined;
+    });
+
+    return results;
+}
+//============================================
+
+//========= Creating =========================
+const createCategory = async (category) => {
+    if(!token.getToken()) {
+        return undefined;
+    }
+
+    let results = {};
+
+    await fetch(`${api}/categories`, {
+        method: 'post',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + token.getToken()
+        },
+        body: JSON.stringify(category),
+    })
+    .then(response => response.json())
+    .then(response => {
+        if(response.token) {
+            token.setToken(response.token);
+        }
+        
+        results = response;
+    })
+    .catch(response => {
+        results = undefined;
+    });
+
+    return results;
+}
+
+const createProducer = async (producer) => {
+    if(!token.getToken()) {
+        return undefined;
+    }
+
+    let results = {};
+
+    await fetch(`${api}/producers`, {
+        method: 'post',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + token.getToken()
+        },
+        body: JSON.stringify(producer),
+    })
+    .then(response => response.json())
+    .then(response => {
+        if(response.token) {
+            token.setToken(response.token);
+        }
+        
+        results = response;
+    })
+    .catch(response => {
+        results = undefined;
+    });
+
+    return results;
+}
+
+const createWatch = async (watch) => {
+    if(!token.getToken()) {
+        return undefined;
+    }
+
+    let results = {};
+
+    await fetch(`${api}/watches`, {
+        method: 'post',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + token.getToken()
+        },
+        body: JSON.stringify(watch),
+    })
+    .then(response => response.json())
+    .then(response => {
+        if(response.token) {
+            token.setToken(response.token);
+        }
+        
+        results = response;
+    })
+    .catch(response => {
+        results = undefined;
+    });
+
+    return results;
+}
 //============================================
 
 //========= Deleting ==========================
@@ -501,10 +741,95 @@ const deleteUser = async (id) => {
 
     return results;
 }
+
+const deleteCategory = async (id) => {
+    if(!token.getToken()) {
+        return undefined;
+    }
+
+    let results = {};
+
+    await fetch(`${api}/categories/${id}`, {
+        method: 'delete',
+        headers: {
+            'Authorization': "Bearer " + token.getToken()
+        }
+    })
+    .then(response => response.json())
+    .then(response => {
+        if(response.token) {
+            token.setToken(response.token);
+        }
+        
+        results = response;
+    })
+    .catch(response => {
+        results = undefined;
+    });
+
+    return results;
+}
+
+const deleteProducer = async (id) => {
+    if(!token.getToken()) {
+        return undefined;
+    }
+
+    let results = {};
+
+    await fetch(`${api}/producers/${id}`, {
+        method: 'delete',
+        headers: {
+            'Authorization': "Bearer " + token.getToken()
+        }
+    })
+    .then(response => response.json())
+    .then(response => {
+        if(response.token) {
+            token.setToken(response.token);
+        }
+        
+        results = response;
+    })
+    .catch(response => {
+        results = undefined;
+    });
+
+    return results;
+}
+
+const deleteWatch = async (id) => {
+    if(!token.getToken()) {
+        return undefined;
+    }
+
+    let results = {};
+
+    await fetch(`${api}/watches/${id}`, {
+        method: 'delete',
+        headers: {
+            'Authorization': "Bearer " + token.getToken()
+        }
+    })
+    .then(response => response.json())
+    .then(response => {
+        if(response.token) {
+            token.setToken(response.token);
+        }
+        
+        results = response;
+    })
+    .catch(response => {
+        results = undefined;
+    });
+
+    return results;
+}
 //============================================
 
 const functions = {
     getWatches: getWatches,
+    getAllWatches: getAllWatches,
     getWatch: getWatch,
     getCategories: getCategories,
     getProducers: getProducers,
@@ -520,7 +845,17 @@ const functions = {
     closeOrder: closeOrder,
     cancelOrder: cancelOrder,
     updateUser: updateUser,
-    deleteUser: deleteUser
+    deleteUser: deleteUser,
+    deleteCategory: deleteCategory,
+    deleteProducer: deleteProducer,
+    deleteWatch: deleteWatch,
+    updateWatch: updateWatch,
+    restoreWatch: restoreWatch,
+    updateCategory: updateCategory,
+    updateProducer: updateProducer,
+    createWatch: createWatch,
+    createCategory: createCategory,
+    createProducer: createProducer
 };
 
 export default functions;

@@ -1,4 +1,5 @@
 import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
 
 const About = () => {
     return (
@@ -17,6 +18,7 @@ const About = () => {
                 <p className="text-white">Maecenas ultrices erat a mi vulputate, quis porttitor libero dignissim. Donec sagittis, nisi non facilisis consectetur, nisi leo tempus nunc, vitae consectetur metus lectus a tellus. Etiam sit amet tempor risus. Nulla luctus dolor id massa laoreet ultricies. Maecenas elementum, ipsum vitae rhoncus pharetra, ipsum velit elementum est, vel consequat est enim eget lacus. Nunc eu dui ac libero interdum pretium in eu massa. Praesent porta pellentesque enim, vitae aliquet lacus. Vivamus sodales interdum nulla non vulputate. Maecenas scelerisque diam consequat velit placerat laoreet. Suspendisse porta, est sed lobortis pellentesque, lectus felis molestie eros, non eleifend neque leo et orci. Sed mattis, tortor nec ultrices molestie, augue ex pretium magna, eget imperdiet neque justo in orci. Quisque a sapien ac justo tincidunt tincidunt non et lorem.</p>
                 <p className="text-white">Vivamus massa lectus, ullamcorper at posuere nec, faucibus id nisi. Duis dapibus egestas nisi, a euismod quam mattis vel. Cras facilisis est sed sollicitudin eleifend. Vivamus commodo ex sed cursus molestie. Aenean mattis sodales aliquam. Duis ornare ante sed augue dapibus tristique. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
             </div>
+            <Footer />
         </div>
     );
 }

@@ -4,7 +4,6 @@ import Error from '../Error/Error';
 import db from '../../database';
 
 import { Table } from 'reactstrap';
-import { FaUserPlus} from 'react-icons/fa';
 import { useEffect, useState } from 'react'; 
 
 const UsersTable = () => {
@@ -54,7 +53,7 @@ const UsersTable = () => {
 
     return (
         <div>
-        <h3 className="text-white">Users <FaUserPlus /></h3>
+        <h3 className="text-white">Users</h3>
         <Table dark>
             <thead>
                 <tr className="text-center">
