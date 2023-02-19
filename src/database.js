@@ -197,6 +197,32 @@ const getOrders = async (isManagerMode) => {
     return results;
 }
 
+const getUsers = async () => {
+    if(!token.getToken()) {
+        return undefined;
+    }
+
+    let results = {};
+    await fetch(`${api}/users`, {
+        method: 'get',
+        headers: {
+            'Authorization': "Bearer " + token.getToken()
+        }
+    })
+    .then(response => response.json())
+    .then(response => {
+        if(response.token) {
+            token.setToken(response.token);
+        }
+        
+        results = response;
+    })
+    .catch(response => {
+        results = undefined;
+    });
+
+    return results;
+}
 //============================================
 
 //========= Authorization ====================
@@ -252,7 +278,7 @@ const signUp = async (login, email, password) => {
 //============================================
 
 
-//========= Order handling====================
+//========= Order handling ===================
 const addToBasket = async (watch) => {
     let results = {};
     await fetch(`${api}/baskets`, {
@@ -414,11 +440,76 @@ const cancelOrder = async (id) => {
 }
 //============================================
 
+//========= Editing ==========================
+const updateUser = async (user) => {
+    if(!token.getToken()) {
+        return undefined;
+    }
+
+    let results = {};
+
+    await fetch(`${api}/users`, {
+        method: 'put',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + token.getToken()
+        },
+        body: JSON.stringify(user),
+    })
+    .then(response => response.json())
+    .then(response => {
+        if(response.token) {
+            token.setToken(response.token);
+        }
+        
+        results = response;
+    })
+    .catch(response => {
+        results = undefined;
+    });
+
+    return results;
+}
+//============================================
+
+//========= Deleting ==========================
+const deleteUser = async (id) => {
+    if(!token.getToken()) {
+        return undefined;
+    }
+
+    let results = {};
+
+    await fetch(`${api}/users/${id}`, {
+        method: 'delete',
+        headers: {
+            'Authorization': "Bearer " + token.getToken()
+        }
+    })
+    .then(response => response.json())
+    .then(response => {
+        if(response.token) {
+            token.setToken(response.token);
+        }
+        
+        results = response;
+    })
+    .catch(response => {
+        results = undefined;
+    });
+
+    return results;
+}
+//============================================
+
 const functions = {
     getWatches: getWatches,
     getWatch: getWatch,
     getCategories: getCategories,
     getProducers: getProducers,
+    getOrders: getOrders,
+    getUsers: getUsers,
     signIn: signIn,
     signUp: signUp,
     addToBasket: addToBasket,
@@ -426,9 +517,10 @@ const functions = {
     deleteBasket: deleteBasket,
     updateBasket: updateBasket,
     order: order,
-    getOrders: getOrders,
     closeOrder: closeOrder,
-    cancelOrder: cancelOrder
+    cancelOrder: cancelOrder,
+    updateUser: updateUser,
+    deleteUser: deleteUser
 };
 
 export default functions;
