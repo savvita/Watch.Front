@@ -13,7 +13,7 @@ const OrderDetailRow = ({ order, isManagerMode, onClose, onCancel }) => {
         <tr>
             <th className="align-middle" scope="row">{ order.id }</th>
             <td className="align-middle">{ order.date }</td>
-            <td className="align-middle">{ order.userId }</td>
+            { isManagerMode ? <td className="align-middle">{ order.userId }</td> : <td></td> }
             <td className="align-middle">{ order.status.statusName }</td>
             <td className="align-middle">{ order.details.map(x => <p key={ x.id } className="p-0 m-0">Watch: { x.watchId } ({ x.count })</p>) }</td>
             <td className="align-middle">{ total } &#8372;</td>

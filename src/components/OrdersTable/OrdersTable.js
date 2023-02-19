@@ -44,11 +44,11 @@ const OrdersTable = ({ isManagerMode }) => {
                     <tr className="text-center">
                         <th scope="col">Id</th>
                         <th scope="col">Date</th>
-                        <th scope="col">UserId</th>
+                        { isManagerMode ? <th scope="col">UserId</th> : <th></th> }
                         <th scope="col">Status</th>
                         <th scope="col">Details</th>
                         <th scope="col">Total</th>
-                        { isManagerMode ? <th scope="col">Close</th> : <td></td> }
+                        { isManagerMode ? <th scope="col">Close</th> : <th></th> }
                         <th scope="col">Cancel</th>
                     </tr>
                 </thead>
