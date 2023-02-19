@@ -164,6 +164,39 @@ const getBasket = async () => {
 
     return results;
 }
+
+const getOrders = async (isManagerMode) => {
+    if(!token.getToken()) {
+        return undefined;
+    }
+
+    let url = `${api}/orders`;
+
+    if(isManagerMode) {
+        url += '/all'
+    }
+    let results = {};
+    await fetch(url, {
+        method: 'get',
+        headers: {
+            'Authorization': "Bearer " + token.getToken()
+        }
+    })
+    .then(response => response.json())
+    .then(response => {
+        if(response.token) {
+            token.setToken(response.token);
+        }
+        
+        results = response;
+    })
+    .catch(response => {
+        results = undefined;
+    });
+
+    return results;
+}
+
 //============================================
 
 //========= Authorization ====================
@@ -323,6 +356,62 @@ const order = async () => {
 
     return results;
 }
+
+const closeOrder = async (id) => {
+    if(!token.getToken()) {
+        return undefined;
+    }
+
+    let results = {};
+
+    await fetch(`${api}/orders/${id}`, {
+        method: 'put',
+        headers: {
+            'Authorization': "Bearer " + token.getToken()
+        }
+    })
+    .then(response => response.json())
+    .then(response => {
+        if(response.token) {
+            token.setToken(response.token);
+        }
+        
+        results = response;
+    })
+    .catch(response => {
+        results = undefined;
+    });
+
+    return results;
+}
+
+const cancelOrder = async (id) => {
+    if(!token.getToken()) {
+        return undefined;
+    }
+
+    let results = {};
+
+    await fetch(`${api}/orders/${id}`, {
+        method: 'delete',
+        headers: {
+            'Authorization': "Bearer " + token.getToken()
+        }
+    })
+    .then(response => response.json())
+    .then(response => {
+        if(response.token) {
+            token.setToken(response.token);
+        }
+        
+        results = response;
+    })
+    .catch(response => {
+        results = undefined;
+    });
+
+    return results;
+}
 //============================================
 
 const functions = {
@@ -336,7 +425,10 @@ const functions = {
     getBasket: getBasket,
     deleteBasket: deleteBasket,
     updateBasket: updateBasket,
-    order: order
+    order: order,
+    getOrders: getOrders,
+    closeOrder: closeOrder,
+    cancelOrder: cancelOrder
 };
 
 export default functions;
