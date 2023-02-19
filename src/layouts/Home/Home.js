@@ -1,15 +1,13 @@
-import Header from './components/Header/Header';
-import Sidebar from './components/Sidebar/Sidebar';
-import Content from './components/Content/Content';
-import Footer from './components/Footer/Footer';
-import CategoriesNav from './components/CategoriesNav/CategoriesNav';
-import db from './database';
+import Header from '../../components/Header/Header';
+import Sidebar from '../../components/Sidebar/Sidebar';
+import Content from '../../components/Content/Content';
+import Footer from '../../components/Footer/Footer';
+import CategoriesNav from '../../components/CategoriesNav/CategoriesNav';
+import db from '../../database';
 
 import { useState, useEffect } from 'react';
 
 import { Row } from 'reactstrap';
-
-import './Home.css';
 
 function Home() {
     const [categories, setCategories] = useState([]);

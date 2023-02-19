@@ -1,5 +1,5 @@
-import Header from './components/Header/Header';
-import Home from './Home';
+import Home from './layouts/Home/Home';
+import About from './layouts/About/About';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -10,7 +10,7 @@ const App = () => {
       <Router>
         <Routes>
           <Route path="/" element={ <Home /> } />        
-          <Route path="/about" element={ <><Header /><h1>About</h1></> } />  
+          <Route path="/about" element={ <About /> } />  
         </Routes>
       </Router>
     </div>

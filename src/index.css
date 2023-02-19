@@ -31,3 +31,7 @@ img.small {
   max-height: 100px;
   object-fit: contain;
 }
+
+.page-container {
+  min-height: 100vh;
+}
