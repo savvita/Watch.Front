@@ -2,7 +2,7 @@ import { Card, CardBody, CardTitle, CardText, ListGroup, ListGroupItem, Button }
 
 import no_image from './No_image_available.png';
 
-const WatchCard = ({ watch }) => {
+const WatchCard = ({ watch, onBuyClick }) => {
     return (
         <Card color="dark" inverse className="m-3 border-light" style={{ width: '18rem' }}>
             <img
@@ -21,7 +21,7 @@ const WatchCard = ({ watch }) => {
                 <ListGroupItem>Price: { watch.price } &#8372;</ListGroupItem>
             </ListGroup>
 
-            <Button color="success">Buy</Button>
+            <Button color="success" onClick={ () => onBuyClick && onBuyClick(watch) }>Buy</Button>
         </Card>
     );
 }

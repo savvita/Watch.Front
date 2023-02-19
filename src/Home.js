@@ -20,6 +20,8 @@ function Home() {
     
     const [searchTxt, setSearchTxt] = useState(null);
 
+    const [buyAdded, setBuyAdded] = useState(false);
+
     useEffect(() => {
         const loadCategories = async () => {
             const c = await db.getCategories();
@@ -74,13 +76,12 @@ function Home() {
         setSearchTxt(value);
     }
 
-
     return <div className="d-flex flex-column page-container">
-                <Header onSearch={ onSearch } />
+                <Header onSearch={ onSearch } buyAdded={ buyAdded } onBasketClosed={ () => setBuyAdded(false) } />
                 <CategoriesNav categories={ categories } onCategoryChange={ onCategoryChange } />
                 <Row className="ps-4 flex-grow-1">
                     <Sidebar categories={ categories } producers={ producers } onCategoryChange={ onCategoriesChange } onProducerChange={ onProducersChange } onMinMaxPriceChange={ onMinMaxPriceChange } />
-                    <Content perPage='2' model={ searchTxt } categories={ categories } producers={ producers } minPrice={ minPrice } maxPrice={ maxPrice } />
+                    <Content perPage='2' model={ searchTxt } categories={ categories } producers={ producers } minPrice={ minPrice } maxPrice={ maxPrice } onBuy={ () => setBuyAdded(true) } />
                 </Row>
                 <Footer />
             </div>

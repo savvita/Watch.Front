@@ -1,7 +1,8 @@
 import Authorization from '../Authorization/Authorization';
+import Basket from '../Basket/Basket';
 import token from '../../token';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AccountMenu from '../AccountMenu/AccountMenu';
 
 
@@ -22,16 +23,22 @@ import { FaShoppingBasket } from 'react-icons/fa';
 import './Header.css';
 
 
-const Header = ({ onSearch, onBasketClick }) => {
+const Header = ({ onSearch, buyAdded, onBasketClosed }) => {
     const [user, setUser] = useState(token.getUserInfo());
     const [collapsed, setCollapsed] = useState(true);
     const toggleNavbar = () => setCollapsed(!collapsed);
 
-    const [modal, setModal] = useState(false);
+    const [auth, setAuth] = useState(false);
     const [isSignIn, setMode] = useState(true);
 
-    const onCancel = () => {
-        setModal(false);
+    const [basket, setBasket] = useState(false || buyAdded);
+
+    useEffect(() => {
+        setBasket(false || buyAdded);
+    }, [buyAdded]);
+
+    const onAuthCancel = () => {
+        setAuth(false);
     }
 
     const onLogOut = () => {
@@ -40,19 +47,27 @@ const Header = ({ onSearch, onBasketClick }) => {
 
     const onSignIn = () => {
         setMode(true);
-        setModal(true);
+        setAuth(true);
     }
 
     const onSignUp = () => {
         setMode(false);
-        setModal(true);
+        setAuth(true);
     }
 
     const onAuthorize = () => {
-        setModal(false);
+        setAuth(false);
         setUser(token.getUserInfo());
     }
+    
+    const onBasketClose = () => {
+        setBasket(false);
+        onBasketClosed && onBasketClosed();
+    }
 
+    const onOrder = () => {
+        setBasket(false);
+    }
 
     return <header>
                 <Navbar dark expand={"md"} className="p-3">
@@ -70,10 +85,12 @@ const Header = ({ onSearch, onBasketClick }) => {
                 </Navbar>
                 <div className="d-flex justify-content-end pe-6">
                     <p className="text-white pe-4">{ user.username !== '' && `Hello, ${ user.username }` }</p>
-                    <FaShoppingBasket style={{ marginRight: '20px' }} onClick={ onBasketClick } />
+                    <FaShoppingBasket style={{ marginRight: '20px', visibility: user.isUser ? 'visible' : 'hidden' }} onClick={ () => setBasket(true) } />
                 </div>
 
-                <Authorization isVisible={ modal } onCancel = { onCancel } signIn={ isSignIn } signUp={ !isSignIn } onOk={ onAuthorize } />
+                <Authorization isVisible={ auth } onCancel = { onAuthCancel } signIn={ isSignIn } signUp={ !isSignIn } onOk={ onAuthorize } />
+
+                <Basket isVisible={ basket } onClose={ onBasketClose } onBuy={ onOrder } />
 
         </header>
 }

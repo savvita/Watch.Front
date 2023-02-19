@@ -1,6 +1,7 @@
 import token from './token';
 
 const api = 'http://sssvvvttt-001-site1.itempurl.com/api';
+//const api = 'https://localhost:7231/api';
 
 const perPage = 2;
 
@@ -42,11 +43,36 @@ const getUrl = (page, model, categories, producers, minPrice, maxPrice, isPopula
     return url;
 }
 
+//========= Getters ==========================
 const getWatches = async (page, model, categories, producers, minPrice, maxPrice, isPopular, isOnSale) => {
     let url = getUrl(page, model, categories, producers, minPrice, maxPrice, isPopular, isOnSale);
     let results = {};
 
     await fetch(url, {
+                method: 'get',
+                headers: {
+                    'Authorization': `Bearer ${token.getToken()}`
+                }
+            })
+            .then(response => response.json())
+            .then(response => {
+                if(response.token) {
+                    token.setToken(response.token);
+                }
+
+                results = response;
+            })
+            .catch(response => {
+                results = undefined;
+            });
+
+    return results;
+}
+
+const getWatch = async (id) => {
+    let results = {};
+
+    await fetch(`${api}/watches/${id}`, {
                 method: 'get',
                 headers: {
                     'Authorization': `Bearer ${token.getToken()}`
@@ -113,6 +139,34 @@ const getProducers = async () => {
     return results;
 }
 
+const getBasket = async () => {
+    if(!token.getToken()) {
+        return undefined;
+    }
+    let results = {};
+    await fetch(`${api}/baskets`, {
+        method: 'get',
+        headers: {
+            'Authorization': "Bearer " + token.getToken()
+        }
+    })
+    .then(response => response.json())
+    .then(response => {
+        if(response.token) {
+            token.setToken(response.token);
+        }
+        
+        results = response;
+    })
+    .catch(response => {
+        results = undefined;
+    });
+
+    return results;
+}
+//============================================
+
+//========= Authorization ====================
 const signIn = async (login, password) => {
     let results = {};
     await fetch(`${api}/auth`, {
@@ -162,13 +216,127 @@ const signUp = async (login, email, password) => {
 
     return results;
 }
+//============================================
+
+
+//========= Order handling====================
+const addToBasket = async (watch) => {
+    let results = {};
+    await fetch(`${api}/baskets`, {
+        method: 'post',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + token.getToken()
+        },
+        body: JSON.stringify({ watchId: watch.id, unitPrice: watch.price, count: 1 })
+    })
+    .then(response => response.json())
+    .then(response => {
+        if(response.token) {
+            token.setToken(response.token);
+        }
+        
+        results = response;
+    })
+    .catch(response => {
+        results = undefined;
+    });
+
+    return results;
+}
+
+const deleteBasket = async () => {
+    let results = {};
+    await fetch(`${api}/baskets`, {
+        method: 'delete',
+        headers: {
+            'Authorization': "Bearer " + token.getToken()
+        }
+    })
+    .then(response => response.json())
+    .then(response => {
+        if(response.token) {
+            token.setToken(response.token);
+        }
+        
+        results = response;
+    })
+    .catch(response => {
+        results = undefined;
+    });
+
+    return results;
+}
+
+const updateBasket = async (basket) => {
+    if(!token.getToken() || !basket || basket.details.length === 0) {
+        return undefined;
+    }
+    let results = {};
+    await fetch(`${api}/baskets`, {
+        method: 'put',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + token.getToken()
+        },
+        body: JSON.stringify(basket.details),
+    })
+    .then(response => response.json())
+    .then(response => {
+        if(response.token) {
+            token.setToken(response.token);
+        }
+        
+        results = response;
+    })
+    .catch(response => {
+        results = undefined;
+    });
+
+    return results;
+}
+
+const order = async () => {
+    if(!token.getToken()) {
+        return undefined;
+    }
+    let results = {};
+    await fetch(`${api}/orders`, {
+        method: 'post',
+        headers: {
+            'Authorization': "Bearer " + token.getToken()
+        }
+    })
+    .then(response => response.json())
+    .then(response => {
+        if(response.token) {
+            token.setToken(response.token);
+        }
+        
+        results = response;
+    })
+    .catch(response => {
+        results = undefined;
+    });
+
+    return results;
+}
+//============================================
 
 const functions = {
     getWatches: getWatches,
+    getWatch: getWatch,
     getCategories: getCategories,
     getProducers: getProducers,
     signIn: signIn,
-    signUp: signUp
+    signUp: signUp,
+    addToBasket: addToBasket,
+    getBasket: getBasket,
+    deleteBasket: deleteBasket,
+    updateBasket: updateBasket,
+    order: order
 };
 
 export default functions;

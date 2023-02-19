@@ -7,7 +7,7 @@ import Card from '../Card/Card';
 import Error from '../Error/Error';
 import Pagination from '../Pagination/Pagination';
 
-const Content = ({ perPage, categories, producers, model, minPrice, maxPrice }) => {
+const Content = ({ perPage, categories, producers, model, minPrice, maxPrice, onBuy }) => {
     const [watches, setWatches] = useState([]);
     const [hits, setHits] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
@@ -51,10 +51,21 @@ const Content = ({ perPage, categories, producers, model, minPrice, maxPrice }) 
         }
     }
 
+    const onBuyClick = async (watch) => {
+        let result = await db.addToBasket(watch);
+        if(!result.code) {
+            onBuy && onBuy();
+        }
+        else 
+        {
+            alert("Something went wrong. Try again later");
+        }
+    }
+
     return (
         <Col md="9" sm="12">
             <div className="d-flex flex-wrap flex-row justify-content-center">
-                { watches !== undefined && watches.map(item => <Card key={ item.id } watch= { item } />) }
+                { watches !== undefined && watches.map(item => <Card key={ item.id } watch= { item } onBuyClick={ onBuyClick } />) }
                 <Error text={ errorTxt } />
             </div>
             
