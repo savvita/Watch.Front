@@ -1,7 +1,8 @@
 import Error from '../Error/Error';
+import Button from '../Button/Button';
 import db from '../../database';
 
-import { Form, FormGroup, Label, Col, Input, Button, FormFeedback } from 'reactstrap';
+import { Form, FormGroup, Label, Col, Input, FormFeedback } from 'reactstrap';
 import { useEffect, useState } from 'react';
 
 import './Authorization.css';
@@ -14,6 +15,8 @@ const Authorization = ({ signIn, signUp, isVisible, onOk, onCancel }) => {
     const [email, setEmail] = useState({ value: '', isValid: false });
     const [password, setPassword] = useState({ value: '', isValid: false });
     const [passwordConfirm, setPasswordConfirm] = useState({ value: '', isValid: false });
+
+    const [isValid, setIsValid] = useState(false);
     
     const handleUserInput = (e) => {
         const name = e.target.name;
@@ -36,6 +39,15 @@ const Authorization = ({ signIn, signUp, isVisible, onOk, onCancel }) => {
                 break;
         }
     }
+
+    useEffect(() => {
+        if(signIn) {
+            setIsValid(login.isValid && password.isValid);
+        }
+        else if(signUp) {
+            setIsValid(login.isValid && email.isValid && password.isValid && passwordConfirm.isValid);
+        }
+    }, [login, email, password, passwordConfirm]);
                 
     const onKeydown = ({ key }) => {
         switch (key) {
@@ -107,7 +119,7 @@ const Authorization = ({ signIn, signUp, isVisible, onOk, onCancel }) => {
 
     return (
         <div>
-            <Form className="position-absolute top-50 start-50 translate-middle bg-dark border border-1 border-light rounded-1 w-50 text-white p-5" style={{ zIndex: 1000 }}>
+            <Form className="position-absolute top-50 start-50 translate-middle bg-dark border border-1 border-light rounded-1 w-50 text-white p-5" style={{ zIndex: 1000, minWidth: '500px' }}>
             <FormGroup row className="mb-3">
                     <Label for="auth-login" sm={4}>Login</Label>
                     <Col sm={8}>
@@ -138,8 +150,8 @@ const Authorization = ({ signIn, signUp, isVisible, onOk, onCancel }) => {
                 </FormGroup> }
                 <Error text={ errorTxt } />
                 <FormGroup row className="flex justify-content-center">
-                    <Button sm="6" className="btn-outline-light m-3 mb-0 auth-button" onClick={ signIn ? onSignIn : onSignUp }>{ (signIn && 'Login') || (signUp && 'Register') }</Button>
-                    <Button sm="6" className="btn-outline-light m-3 mb-0 auth-button" onClick={ onCancelClick }>Cancel</Button>
+                    <Button value={ (signIn && 'Login') || (signUp && 'Register') } onClick={ signIn ? onSignIn : onSignUp } disabled={ !isValid } /> 
+                    <Button value="Cancel" onClick={ onCancelClick } />
                 </FormGroup>
             </Form>
         </div>

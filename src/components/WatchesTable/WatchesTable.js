@@ -141,7 +141,7 @@ const WatchesTable = () => {
         editWatch({ 
             "id": '',
             "model": "",
-            "price": '0',
+            "price": '',
             "category": {
                 "id": '',
                 "categoryName": ""
@@ -150,7 +150,7 @@ const WatchesTable = () => {
                 "id": '',
                 "producerName": ""
             },
-            "available": 0,
+            "available": '',
             "onSale": false,
             "sold": 0,
             "isPopular": false,

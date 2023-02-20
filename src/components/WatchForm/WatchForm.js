@@ -10,8 +10,8 @@ const WatchForm = ({ watch, categories, producers, isVisible, onUpdate, onCancel
     const [producerId, setProducerId] = useState({ value: '', isValid: true });
     const [categoryId, setCategoryId] = useState({ value: '', isValid: true });
     const [model, setModel] = useState({ value: '', isValid: true });
-    const [available, setAvailable] = useState({ value: 0, isValid: true });
-    const [price, setPrice] = useState({ value: 0, isValid: true });
+    const [available, setAvailable] = useState({ value: '', isValid: true });
+    const [price, setPrice] = useState({ value: '', isValid: true });
     const [imageUrl, setImageUrl] = useState({ value: '', isValid: true });
 
     useEffect(() => {

@@ -1,4 +1,4 @@
-import { Card, CardBody, CardTitle, CardText, ListGroup, ListGroupItem, Button } from 'reactstrap';
+import { Card, CardBody, CardTitle, CardText, ListGroup, ListGroupItem, Button, Badge } from 'reactstrap';
 
 import no_image from './No_image_available.png';
 
@@ -10,7 +10,7 @@ const WatchCard = ({ watch, onBuyClick }) => {
                 src={ watch.imageUrl ?? {no_image}}
                 className="card-img-top"
             />
-
+            { watch.isPopular && <Badge color="danger" className="position-absolute top-0 end-0 fs-6">TOP</Badge> }
             <CardBody>
                 <CardTitle tag="h5">{ watch.model }</CardTitle>
                 <CardText>Category: { watch.category.categoryName }</CardText>

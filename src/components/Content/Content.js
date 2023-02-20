@@ -7,14 +7,14 @@ import Card from '../Card/Card';
 import Error from '../Error/Error';
 import Pagination from '../Pagination/Pagination';
 
-const Content = ({ perPage, categories, producers, model, minPrice, maxPrice, onBuy }) => {
+const Content = ({ perPage, filters, isIndex, onBuy }) => {
     const [watches, setWatches] = useState([]);
     const [hits, setHits] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [errorTxt, setErrorTxt] = useState("");
 
-    const loadWatches = async (page) => {
-        const w = await db.getWatches(page, model, categories.filter(category => category.isChecked), producers.filter(producer => producer.isChecked), minPrice, maxPrice, true, true);
+    const loadWatches = async (page, isPopular = null) => {
+        const w = await db.getWatches(page, filters.model, filters.categories.filter(category => category.isChecked), filters.producers.filter(producer => producer.isChecked), filters.minPrice, filters.maxPrice, isPopular, true);
 
         if(w === undefined) {
             setErrorTxt("Something went wrong. Sorry :(");
@@ -32,8 +32,9 @@ const Content = ({ perPage, categories, producers, model, minPrice, maxPrice, on
     }
 
     useEffect(() => {
-        loadWatches(currentPage);
-    }, [perPage, categories, producers, model, minPrice, maxPrice, hits]);
+        setCurrentPage(1);
+        loadWatches(1, isIndex ? isIndex : null);
+    }, [filters, hits, isIndex]);
 
     const onPageClick = async (page) => {
         await loadWatches(page);

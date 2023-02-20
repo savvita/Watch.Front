@@ -20,6 +20,11 @@ function Home() {
 
     const [buyAdded, setBuyAdded] = useState(false);
 
+    const [filters, setFilters] = useState({ categories: [], producers: [], minPrice: null, maxPrice: null, model: null });
+
+    const [isReady, setIsReady] = useState(false);
+    const [isIndex, setIsIndex] = useState(true);
+
     useEffect(() => {
         const loadCategories = async () => {
             const c = await db.getCategories();
@@ -39,19 +44,26 @@ function Home() {
 
         loadCategories();
         loadProducers();
+
+        setIsReady(true);
     }, []);
 
     const filter = (array, setArray, id) => {
         setArray(array.map(item => item.id === id ? { ...item, isChecked: !item.isChecked } : item));
     }
 
+    useEffect(() => {
+        setFilters({ categories: categories.filter(x => x.isChecked), producers: producers.filter(x => x.isChecked), minPrice: minPrice, maxPrice: maxPrice, model: searchTxt });
+    }, [categories, producers, minPrice, maxPrice, searchTxt]);
+
     const onCategoriesChange = (id) => {
         filter(categories, setCategories, id);
+        setIsIndex(false);
     }
 
-    const onProducersChange = (id) => 
-    {
+    const onProducersChange = (id) => {
         filter(producers, setProducers, id);
+        setIsIndex(false);
     }
 
     const onMinMaxPriceChange = (minPrice, maxPrice) => {
@@ -63,11 +75,12 @@ function Home() {
     }
 
     const onCategoryChange = (id) => {
+        setIsIndex(false);
         setCategories(categories.map(category => { return { ...category, isChecked: category.id === id } }));
         setProducers(producers.map(producer => { return { ...producer, isChecked: false } }));
-
         setMinPrice(null);
         setMaxPrice(null);
+        setSearchTxt(null);
     }
 
     const onSearch = (value) => {
@@ -79,7 +92,7 @@ function Home() {
                 <CategoriesNav categories={ categories } onCategoryChange={ onCategoryChange } />
                 <Row className="ps-4 flex-grow-1">
                     <Sidebar categories={ categories } producers={ producers } onCategoryChange={ onCategoriesChange } onProducerChange={ onProducersChange } onMinMaxPriceChange={ onMinMaxPriceChange } />
-                    <Content perPage='2' model={ searchTxt } categories={ categories } producers={ producers } minPrice={ minPrice } maxPrice={ maxPrice } onBuy={ () => setBuyAdded(true) } />
+                    { isReady && <Content perPage='2' isIndex={ isIndex } filters={ filters } onBuy={ () => setBuyAdded(true) } /> }
                 </Row>
                 <Footer />
             </div>
