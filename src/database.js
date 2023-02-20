@@ -5,6 +5,104 @@ const api = 'http://sssvvvttt-001-site1.itempurl.com/api';
 
 const perPage = 2;
 
+const get = async (url) => {
+    let results = {};
+    await fetch(url, {
+        method: 'get',
+        headers: {
+            'Authorization': "Bearer " + token.getToken()
+        }
+    })
+    .then(response => response.json())
+    .then(response => {
+        if(response.token) {
+            token.setToken(response.token);
+        }
+        
+        results = response;
+    })
+    .catch(() => {
+        results = undefined;
+    });
+
+    return results;
+}
+
+const post = async (url, body) => {
+    let results = {};
+    await fetch(url, {
+        method: 'post',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + token.getToken()
+        },
+        body: JSON.stringify(body),
+    })
+    .then(response => response.json())
+    .then(response => {
+        if(response.token) {
+            token.setToken(response.token);
+        }
+        
+        results = response;
+    })
+    .catch(() => {
+        results = undefined;
+    });
+
+    return results;
+}
+
+const put = async (url, body) => {
+    let results = {};
+    await fetch(url, {
+        method: 'put',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + token.getToken()
+        },
+        body: JSON.stringify(body),
+    })
+    .then(response => response.json())
+    .then(response => {
+        if(response.token) {
+            token.setToken(response.token);
+        }
+        
+        results = response;
+    })
+    .catch(() => {
+        results = undefined;
+    });
+
+    return results;
+}
+
+const remove = async (url) => {
+    let results = {};
+    await fetch(url, {
+        method: 'delete',
+        headers: {
+            'Authorization': "Bearer " + token.getToken()
+        }
+    })
+    .then(response => response.json())
+    .then(response => {
+        if(response.token) {
+            token.setToken(response.token);
+        }
+        
+        results = response;
+    })
+    .catch(() => {
+        results = undefined;
+    });
+
+    return results;
+}
+
 const getUrl = (page, model, categories, producers, minPrice, maxPrice, isPopular, isOnSale) => {
     let url = `${api}/watches/page/${page}?perPage=${perPage}`;
 
@@ -46,147 +144,28 @@ const getUrl = (page, model, categories, producers, minPrice, maxPrice, isPopula
 //========= Getters ==========================
 const getWatches = async (page, model, categories, producers, minPrice, maxPrice, isPopular, isOnSale) => {
     let url = getUrl(page, model, categories, producers, minPrice, maxPrice, isPopular, isOnSale);
-    let results = {};
 
-    await fetch(url, {
-                method: 'get',
-                headers: {
-                    'Authorization': `Bearer ${token.getToken()}`
-                }
-            })
-            .then(response => response.json())
-            .then(response => {
-                if(response.token) {
-                    token.setToken(response.token);
-                }
-
-                results = response;
-            })
-            .catch(response => {
-                results = undefined;
-            });
-
-    return results;
+    return await get(url);
 }
 
 const getAllWatches = async () => {
-    let results = {};
-
-    await fetch(`${api}/watches`, {
-                method: 'get',
-                headers: {
-                    'Authorization': `Bearer ${token.getToken()}`
-                }
-            })
-            .then(response => response.json())
-            .then(response => {
-                if(response.token) {
-                    token.setToken(response.token);
-                }
-
-                results = response;
-            })
-            .catch(response => {
-                results = undefined;
-            });
-
-    return results;
+    return await get(`${api}/watches`);
 }
 
 const getWatch = async (id) => {
-    let results = {};
-
-    await fetch(`${api}/watches/${id}`, {
-                method: 'get',
-                headers: {
-                    'Authorization': `Bearer ${token.getToken()}`
-                }
-            })
-            .then(response => response.json())
-            .then(response => {
-                if(response.token) {
-                    token.setToken(response.token);
-                }
-
-                results = response;
-            })
-            .catch(response => {
-                results = undefined;
-            });
-
-    return results;
+    return await get(`${api}/watches/${id}`);
 }
 
 const getCategories = async () => {
-    let results = {};
-    await fetch(`${api}/categories`, {
-        method: 'get',
-        headers: {
-            'Authorization': `Bearer ${token.getToken()}`
-        }
-    })
-    .then(response => response.json())
-    .then(response => {
-        if(response.token) {
-            token.setToken(response.token);
-        }
-
-        results = response;
-    })
-    .catch(response => {
-        results = undefined;
-    });
-
-    return results;
+    return await get(`${api}/categories`);
 }
 
 const getProducers = async () => {
-    let results = {};
-    await fetch(`${api}/producers`, {
-        method: 'get',
-        headers: {
-            'Authorization': `Bearer ${token.getToken()}`
-        }
-    })
-    .then(response => response.json())
-    .then(response => {
-        if(response.token) {
-            token.setToken(response.token);
-        }
-
-        results = response;
-    })
-    .catch(response => {
-        results = undefined;
-    });
-
-    return results;
+    return await get(`${api}/producers`);
 }
 
 const getBasket = async () => {
-    if(!token.getToken()) {
-        return undefined;
-    }
-    let results = {};
-    await fetch(`${api}/baskets`, {
-        method: 'get',
-        headers: {
-            'Authorization': "Bearer " + token.getToken()
-        }
-    })
-    .then(response => response.json())
-    .then(response => {
-        if(response.token) {
-            token.setToken(response.token);
-        }
-        
-        results = response;
-    })
-    .catch(response => {
-        results = undefined;
-    });
-
-    return results;
+    return await get(`${api}/baskets`);
 }
 
 const getOrders = async (isManagerMode) => {
@@ -199,26 +178,8 @@ const getOrders = async (isManagerMode) => {
     if(isManagerMode) {
         url += '/all'
     }
-    let results = {};
-    await fetch(url, {
-        method: 'get',
-        headers: {
-            'Authorization': "Bearer " + token.getToken()
-        }
-    })
-    .then(response => response.json())
-    .then(response => {
-        if(response.token) {
-            token.setToken(response.token);
-        }
-        
-        results = response;
-    })
-    .catch(response => {
-        results = undefined;
-    });
 
-    return results;
+    return await get(url);
 }
 
 const getUsers = async () => {
@@ -226,604 +187,102 @@ const getUsers = async () => {
         return undefined;
     }
 
-    let results = {};
-    await fetch(`${api}/users`, {
-        method: 'get',
-        headers: {
-            'Authorization': "Bearer " + token.getToken()
-        }
-    })
-    .then(response => response.json())
-    .then(response => {
-        if(response.token) {
-            token.setToken(response.token);
-        }
-        
-        results = response;
-    })
-    .catch(response => {
-        results = undefined;
-    });
-
-    return results;
+    return await get(`${api}/users`);
 }
 //============================================
 
 //========= Authorization ====================
 const signIn = async (login, password) => {
-    let results = {};
-    await fetch(`${api}/auth`, {
-        method: 'post',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ userName: login, password: password }),
-    })
-    .then(response => response.json())
-    .then(response => {
-        if(response.token) {
-            token.setToken(response.token);
-        }
-        
-        results = response;
-    })
-    .catch(response => {
-        results = undefined;
-    });
-
-    return results;
+    return await post(`${api}/auth`, { userName: login, password: password });
 }
 
 const signUp = async (login, email, password) => {
-    let results = {};
-    await fetch(`${api}/auth/user`, {
-        method: 'post',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ userName: login, email: email, password: password }),
-    })
-    .then(response => response.json())
-    .then(response => {
-        if(response.token) {
-            token.setToken(response.token);
-        }
-        
-        results = response;
-    })
-    .catch(response => {
-        results = undefined;
-    });
-
-    return results;
+    return await post(`${api}/auth/user`, { userName: login, email: email, password: password });
 }
 //============================================
 
 
 //========= Order handling ===================
 const addToBasket = async (watch) => {
-    let results = {};
-    await fetch(`${api}/baskets`, {
-        method: 'post',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': "Bearer " + token.getToken()
-        },
-        body: JSON.stringify({ watchId: watch.id, unitPrice: watch.price, count: 1 })
-    })
-    .then(response => response.json())
-    .then(response => {
-        if(response.token) {
-            token.setToken(response.token);
-        }
-        
-        results = response;
-    })
-    .catch(response => {
-        results = undefined;
-    });
-
-    return results;
+    return await post(`${api}/baskets`, { watchId: watch.id, unitPrice: watch.price, count: 1 });
 }
 
 const deleteBasket = async () => {
-    let results = {};
-    await fetch(`${api}/baskets`, {
-        method: 'delete',
-        headers: {
-            'Authorization': "Bearer " + token.getToken()
-        }
-    })
-    .then(response => response.json())
-    .then(response => {
-        if(response.token) {
-            token.setToken(response.token);
-        }
-        
-        results = response;
-    })
-    .catch(response => {
-        results = undefined;
-    });
-
-    return results;
+    return await remove(`${api}/baskets`);
 }
 
 const updateBasket = async (basket) => {
     if(!token.getToken() || !basket || basket.details.length === 0) {
         return undefined;
     }
-    let results = {};
-    await fetch(`${api}/baskets`, {
-        method: 'put',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': "Bearer " + token.getToken()
-        },
-        body: JSON.stringify(basket.details),
-    })
-    .then(response => response.json())
-    .then(response => {
-        if(response.token) {
-            token.setToken(response.token);
-        }
-        
-        results = response;
-    })
-    .catch(response => {
-        results = undefined;
-    });
 
-    return results;
+    return await put(`${api}/baskets`, basket.details);
 }
 
 const order = async () => {
-    if(!token.getToken()) {
-        return undefined;
-    }
-    let results = {};
-    await fetch(`${api}/orders`, {
-        method: 'post',
-        headers: {
-            'Authorization': "Bearer " + token.getToken()
-        }
-    })
-    .then(response => response.json())
-    .then(response => {
-        if(response.token) {
-            token.setToken(response.token);
-        }
-        
-        results = response;
-    })
-    .catch(response => {
-        results = undefined;
-    });
-
-    return results;
+    return await post(`${api}/orders`);
 }
 
 const closeOrder = async (id) => {
-    if(!token.getToken()) {
-        return undefined;
-    }
-
-    let results = {};
-
-    await fetch(`${api}/orders/${id}`, {
-        method: 'put',
-        headers: {
-            'Authorization': "Bearer " + token.getToken()
-        }
-    })
-    .then(response => response.json())
-    .then(response => {
-        if(response.token) {
-            token.setToken(response.token);
-        }
-        
-        results = response;
-    })
-    .catch(response => {
-        results = undefined;
-    });
-
-    return results;
+    return await put(`${api}/orders/${id}`, {});
 }
 
 const cancelOrder = async (id) => {
-    if(!token.getToken()) {
-        return undefined;
-    }
-
-    let results = {};
-
-    await fetch(`${api}/orders/${id}`, {
-        method: 'delete',
-        headers: {
-            'Authorization': "Bearer " + token.getToken()
-        }
-    })
-    .then(response => response.json())
-    .then(response => {
-        if(response.token) {
-            token.setToken(response.token);
-        }
-        
-        results = response;
-    })
-    .catch(response => {
-        results = undefined;
-    });
-
-    return results;
+    return await remove(`${api}/orders/${id}`);
 }
 //============================================
 
 //========= Editing ==========================
 const updateUser = async (user) => {
-    if(!token.getToken()) {
-        return undefined;
-    }
-
-    let results = {};
-
-    await fetch(`${api}/users`, {
-        method: 'put',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': "Bearer " + token.getToken()
-        },
-        body: JSON.stringify(user),
-    })
-    .then(response => response.json())
-    .then(response => {
-        if(response.token) {
-            token.setToken(response.token);
-        }
-        
-        results = response;
-    })
-    .catch(response => {
-        results = undefined;
-    });
-
-    return results;
+    return await put(`${api}/users`, user);
 }
 
 const updateCategory = async (category) => {
-    if(!token.getToken()) {
-        return undefined;
-    }
-
-    let results = {};
-
-    await fetch(`${api}/categories`, {
-        method: 'put',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': "Bearer " + token.getToken()
-        },
-        body: JSON.stringify(category),
-    })
-    .then(response => response.json())
-    .then(response => {
-        if(response.token) {
-            token.setToken(response.token);
-        }
-        
-        results = response;
-    })
-    .catch(response => {
-        results = undefined;
-    });
-
-    return results;
+    return await put(`${api}/categories`, category);
 }
 
 const updateProducer = async (producer) => {
-    if(!token.getToken()) {
-        return undefined;
-    }
-
-    let results = {};
-
-    await fetch(`${api}/producers`, {
-        method: 'put',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': "Bearer " + token.getToken()
-        },
-        body: JSON.stringify(producer),
-    })
-    .then(response => response.json())
-    .then(response => {
-        if(response.token) {
-            token.setToken(response.token);
-        }
-        
-        results = response;
-    })
-    .catch(response => {
-        results = undefined;
-    });
-
-    return results;
+    return await put(`${api}/producers`, producer);
 }
 
 const updateWatch = async (watch) => {
-    if(!token.getToken()) {
-        return undefined;
-    }
-
-    let results = {};
-
-    await fetch(`${api}/watches`, {
-        method: 'put',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': "Bearer " + token.getToken()
-        },
-        body: JSON.stringify(watch),
-    })
-    .then(response => response.json())
-    .then(response => {
-        if(response.token) {
-            token.setToken(response.token);
-        }
-        
-        results = response;
-    })
-    .catch(response => {
-        results = undefined;
-    });
-
-    return results;
+    return await put(`${api}/watches`, watch);
 }
 
 const restoreWatch = async (id) => {
-    if(!token.getToken()) {
-        return undefined;
-    }
-
-    let results = {};
-
-    await fetch(`${api}/watches/restore/${id}`, {
-        method: 'put',
-        headers: {
-            'Authorization': "Bearer " + token.getToken()
-        }
-    })
-    .then(response => response.json())
-    .then(response => {
-        if(response.token) {
-            token.setToken(response.token);
-        }
-        
-        results = response;
-    })
-    .catch(response => {
-        results = undefined;
-    });
-
-    return results;
+    return await put(`${api}/watches/restore/${id}`, {});
 }
 //============================================
 
 //========= Creating =========================
 const createCategory = async (category) => {
-    if(!token.getToken()) {
-        return undefined;
-    }
-
-    let results = {};
-
-    await fetch(`${api}/categories`, {
-        method: 'post',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': "Bearer " + token.getToken()
-        },
-        body: JSON.stringify(category),
-    })
-    .then(response => response.json())
-    .then(response => {
-        if(response.token) {
-            token.setToken(response.token);
-        }
-        
-        results = response;
-    })
-    .catch(response => {
-        results = undefined;
-    });
-
-    return results;
+    return await post(`${api}/categories`, category);
 }
 
 const createProducer = async (producer) => {
-    if(!token.getToken()) {
-        return undefined;
-    }
-
-    let results = {};
-
-    await fetch(`${api}/producers`, {
-        method: 'post',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': "Bearer " + token.getToken()
-        },
-        body: JSON.stringify(producer),
-    })
-    .then(response => response.json())
-    .then(response => {
-        if(response.token) {
-            token.setToken(response.token);
-        }
-        
-        results = response;
-    })
-    .catch(response => {
-        results = undefined;
-    });
-
-    return results;
+    return await post(`${api}/producers`, producer);
 }
 
 const createWatch = async (watch) => {
-    if(!token.getToken()) {
-        return undefined;
-    }
-
-    let results = {};
-
-    await fetch(`${api}/watches`, {
-        method: 'post',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': "Bearer " + token.getToken()
-        },
-        body: JSON.stringify(watch),
-    })
-    .then(response => response.json())
-    .then(response => {
-        if(response.token) {
-            token.setToken(response.token);
-        }
-        
-        results = response;
-    })
-    .catch(response => {
-        results = undefined;
-    });
-
-    return results;
+    return await post(`${api}/watches`, watch);
 }
 //============================================
 
 //========= Deleting ==========================
 const deleteUser = async (id) => {
-    if(!token.getToken()) {
-        return undefined;
-    }
-
-    let results = {};
-
-    await fetch(`${api}/users/${id}`, {
-        method: 'delete',
-        headers: {
-            'Authorization': "Bearer " + token.getToken()
-        }
-    })
-    .then(response => response.json())
-    .then(response => {
-        if(response.token) {
-            token.setToken(response.token);
-        }
-        
-        results = response;
-    })
-    .catch(response => {
-        results = undefined;
-    });
-
-    return results;
+    return await remove(`${api}/users/${id}`);
 }
 
 const deleteCategory = async (id) => {
-    if(!token.getToken()) {
-        return undefined;
-    }
-
-    let results = {};
-
-    await fetch(`${api}/categories/${id}`, {
-        method: 'delete',
-        headers: {
-            'Authorization': "Bearer " + token.getToken()
-        }
-    })
-    .then(response => response.json())
-    .then(response => {
-        if(response.token) {
-            token.setToken(response.token);
-        }
-        
-        results = response;
-    })
-    .catch(response => {
-        results = undefined;
-    });
-
-    return results;
+    return await remove(`${api}/categories/${id}`);
 }
 
 const deleteProducer = async (id) => {
-    if(!token.getToken()) {
-        return undefined;
-    }
-
-    let results = {};
-
-    await fetch(`${api}/producers/${id}`, {
-        method: 'delete',
-        headers: {
-            'Authorization': "Bearer " + token.getToken()
-        }
-    })
-    .then(response => response.json())
-    .then(response => {
-        if(response.token) {
-            token.setToken(response.token);
-        }
-        
-        results = response;
-    })
-    .catch(response => {
-        results = undefined;
-    });
-
-    return results;
+    return await remove(`${api}/producers/${id}`);
 }
 
 const deleteWatch = async (id) => {
-    if(!token.getToken()) {
-        return undefined;
-    }
-
-    let results = {};
-
-    await fetch(`${api}/watches/${id}`, {
-        method: 'delete',
-        headers: {
-            'Authorization': "Bearer " + token.getToken()
-        }
-    })
-    .then(response => response.json())
-    .then(response => {
-        if(response.token) {
-            token.setToken(response.token);
-        }
-        
-        results = response;
-    })
-    .catch(response => {
-        results = undefined;
-    });
-
-    return results;
+    return await remove(`${api}/watches/${id}`);
 }
 //============================================
 
