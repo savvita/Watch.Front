@@ -1,7 +1,7 @@
 import Header from '../../components/Header/Header';
 import UsersTable from '../../components/UsersTable/UsersTable';
 
-const Users = () => {
+const Admin = () => {
     return (
         <div className="d-flex flex-column page-container">
             <Header />
@@ -12,4 +12,4 @@ const Users = () => {
     );
 }
 
-export default Users;
+export default Admin;

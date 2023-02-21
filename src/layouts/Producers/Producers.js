@@ -1,29 +1,31 @@
 import PropTable from '../../components/PropTable/PropTable';
-import db from '../../database';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { getAsync, selectValues, createAsync, updateAsync, deleteAsync } from '../../app/producersSlice';
 
 function Producers() {
+    const items = useSelector(selectValues);
+
+    const dispatch = useDispatch();
 
     const loadProducers = async () => {
-        const c = await db.getProducers();
-
-        if (c !== undefined) {
-            return c.value.map(producer => { return { id: producer.key.id, value: producer.key.producerName, count: producer.value } });
-        }
-
-        return [];
+        dispatch(getAsync());
     }
 
     const createProducer = async (item) => {
-        await db.createProducer({ producerName: item.value });
+        dispatch(createAsync({ producerName: item.value }));
     }
 
     const updateProducer = async (item) => {
-        await db.updateProducer({ id: item.id, producerName: item.value });
+        dispatch(updateAsync({ id: item.id, producerName: item.value }));
+    }
+
+    const deleteProducer = async (id) => {
+        dispatch(deleteAsync(id));
     }
 
 
-    return <PropTable title="Producers" loadItemsAsync={ loadProducers } createItemAsync={ createProducer } updateItemAsync={ updateProducer } deleteItemAsync={ db.deleteProducer } />
+    return <PropTable title="Producers" items={ items } loadItemsAsync={ loadProducers } createItemAsync={ createProducer } updateItemAsync={ updateProducer } deleteItemAsync={ deleteProducer }  />
 }
 
 export default Producers;

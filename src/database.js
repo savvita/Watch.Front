@@ -3,8 +3,6 @@ import token from './token';
 const api = 'http://sssvvvttt-001-site1.itempurl.com/api';
 //const api = 'https://localhost:7231/api';
 
-const perPage = 2;
-
 const get = async (url) => {
     let results = {};
     await fetch(url, {
@@ -103,7 +101,7 @@ const remove = async (url) => {
     return results;
 }
 
-const getUrl = (page, model, categories, producers, minPrice, maxPrice, isPopular, isOnSale) => {
+const getUrl = (page, perPage, model, categories, producers, minPrice, maxPrice, isPopular, isOnSale) => {
     let url = `${api}/watches/page/${page}?perPage=${perPage}`;
 
     if(categories) {
@@ -142,8 +140,8 @@ const getUrl = (page, model, categories, producers, minPrice, maxPrice, isPopula
 }
 
 //========= Getters ==========================
-const getWatches = async (page, model, categories, producers, minPrice, maxPrice, isPopular, isOnSale) => {
-    let url = getUrl(page, model, categories, producers, minPrice, maxPrice, isPopular, isOnSale);
+const getWatches = async (filters) => {
+    let url = getUrl(filters.page, filters.perPage, filters.model, filters.categories, filters.producers, filters.minPrice, filters.maxPrice, filters.isPopular, filters.isOnSale);
 
     return await get(url);
 }

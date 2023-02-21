@@ -1,29 +1,31 @@
 import PropTable from '../../components/PropTable/PropTable';
-import db from '../../database';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { getAsync, selectValues, createAsync, updateAsync, deleteAsync } from '../../app/categoriesSlice';
 
 function Categories() {
+    const items = useSelector(selectValues);
+
+    const dispatch = useDispatch();
 
     const loadCategories = async () => {
-        const c = await db.getCategories();
-
-        if (c !== undefined) {
-            return c.value.map(category => { return { id: category.key.id, value: category.key.categoryName, count: category.value } });
-        }
-
-        return [];
+        dispatch(getAsync());
     }
 
     const createCategory = async (item) => {
-        await db.createCategory({ categoryName: item.value });
+        dispatch(createAsync({ categoryName: item.value }));
     }
 
     const updateCategory = async (item) => {
-        await db.updateCategory({ id: item.id, categoryName: item.value });
+        dispatch(updateAsync({ id: item.id, categoryName: item.value }));
+    }
+
+    const deleteCategory = async (id) => {
+        dispatch(deleteAsync(id));
     }
 
 
-    return <PropTable title="Categories" loadItemsAsync={ loadCategories } createItemAsync={ createCategory } updateItemAsync={ updateCategory } deleteItemAsync={ db.deleteCategory } />
+    return <PropTable title="Categories" items={ items } loadItemsAsync={ loadCategories } createItemAsync={ createCategory } updateItemAsync={ updateCategory } deleteItemAsync={ deleteCategory }  />
 }
 
 export default Categories;

@@ -1,40 +1,18 @@
 import OrderDetailRow from '../OrderDetailRow/OrderDetailRow';
-import Error from '../Error/Error';
-import db from '../../database';
 
 import { Table } from 'reactstrap';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { getAsync, selectValues } from '../../app/ordersSlice';
 
 const OrdersTable = ({ isManagerMode }) => {
-    const [orders, setOrders] = useState([]);
-    const [errorTxt, setErrorTxt] = useState();
-
-    const loadOrders = async () => {
-        const res = await db.getOrders(isManagerMode);
-
-        if(res) {
-            if(res.value) {
-                setOrders(res.value);
-            }
-        }
-        else {
-            setErrorTxt("Something went wrong. Try again later");
-        }
-    };
+    const orders = useSelector(selectValues);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        loadOrders();
+        dispatch(getAsync());
     }, []);
-
-    const closeOrder = async (id) => {
-        await db.closeOrder(id);
-        await loadOrders();
-    }
-
-    const cancelOrder = async (id) => {
-        await db.cancelOrder(id);
-        await loadOrders();
-    }
 
     return (
         <div>
@@ -53,11 +31,9 @@ const OrdersTable = ({ isManagerMode }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    { orders.map(x => <OrderDetailRow key={ x.id } order={ x } isManagerMode={ isManagerMode } onClose={ closeOrder } onCancel={ cancelOrder } />) }
+                    { orders.map(x => <OrderDetailRow key={ x.id } order={ x } isManagerMode={ isManagerMode } />) }
                 </tbody>
             </Table>
-
-            <Error text={ errorTxt } />
         </div>
     );
 }

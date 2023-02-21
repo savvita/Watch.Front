@@ -5,15 +5,10 @@ import token from '../../token';
 
 import React, { useEffect, useState } from 'react';
 
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  Input,
-  NavLink
-} from 'reactstrap';
+import { useDispatch } from 'react-redux';
+import { setModel } from '../../app/filtersSlice';
+
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, Input, NavLink } from 'reactstrap';
 
 import { NavLink as RRNavLink, useLocation } from 'react-router-dom';
 
@@ -22,7 +17,9 @@ import { FaShoppingBasket } from 'react-icons/fa';
 import './Header.css';
 
 
-const Header = ({ onSearch, buyAdded, onBasketClosed }) => {
+const Header = ({ buyAdded, onBasketClosed }) => {
+    const dispatch = useDispatch();
+
     const location = useLocation();
     const [user, setUser] = useState(token.getUserInfo());
     const [collapsed, setCollapsed] = useState(true);
@@ -81,7 +78,7 @@ const Header = ({ onSearch, buyAdded, onBasketClosed }) => {
                             <AccountMenu user={ user } onSignIn={ onSignIn } onSignUp={ onSignUp } onLogOut={ onLogOut } />
                         </Nav>
                     </Collapse>
-                    { location.pathname === '/' && <Input name="search" placeholder="Search" type="search" onInput={ (e) => onSearch && onSearch(e.target.value) } /> }
+                    { location.pathname === '/' && <Input name="search" placeholder="Search" type="search" onInput={ (e) => dispatch(setModel(e.target.value)) } /> }
                 </Navbar>
                 <div className="d-flex justify-content-end pe-6">
                     <p className="text-white pe-4">{ user.username !== '' && `Hello, ${ user.username }` }</p>

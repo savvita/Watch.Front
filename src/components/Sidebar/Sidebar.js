@@ -1,21 +1,42 @@
 import FilterMenu from '../FilterMenu/FilterMenu';
 import PriceFilterMenu from '../PriceFilterMenu/PriceFilterMenu';
 
-import { Col } from 'reactstrap';
+import { useSelector, useDispatch } from 'react-redux';
+import { getAsync as getProducers, selectValues as selectProducers, switchChecked as switchProducer } from '../../app/producersSlice';
+import { getAsync as getCategories, selectValues as selectCategories, switchChecked as switchCategory} from '../../app/categoriesSlice';
+import { setProducers, setCategories, setPage } from '../../app/filtersSlice';
+import { useEffect } from 'react';
 
+const Sidebar = () => {
+    const producers = useSelector(selectProducers);
+    const categories = useSelector(selectCategories);
+    const dispatch = useDispatch();
 
+    useEffect(() => {
+        dispatch(getProducers());
+        dispatch(getCategories());
+    }, []);
 
-const Sidebar = ({ categories, producers, onCategoryChange, onProducerChange, onMinMaxPriceChange }) => {
+    const onProducerChange = (id) => {
+        dispatch(switchProducer(id));
+    }
+
+    const onCategoryChange = (id) => {
+        dispatch(switchCategory(id));
+    }
+
+    useEffect(() => {
+        dispatch(setProducers(producers));
+        dispatch(setCategories(categories));
+        dispatch(setPage(1));
+    },[producers, categories]);
+
     return (
-        <Col md="3" sm="12" className="border-1 border-end border-light mt-3 p-0 text-white">
-            <div>
-                <PriceFilterMenu onBlur={ onMinMaxPriceChange } />
-
-                <FilterMenu title="Producers" onChange={ onProducerChange } items={ producers } />
-
-                <FilterMenu title="Categories" onChange={ onCategoryChange } items={ categories } />
-            </div>
-        </Col>
+        <div>
+            <PriceFilterMenu />
+            <FilterMenu title="Producers" onChange={ onProducerChange } items={ producers } />
+            <FilterMenu title="Categories" onChange={ onCategoryChange } items={ categories } />
+        </div>
     );
 }
 

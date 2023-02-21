@@ -25,8 +25,7 @@ const ItemForm = ({ item, isVisible, onUpdate, onCancel }) => {
 
     const onEdit = (e) => {
         e.preventDefault();
-        item.value = unit.value;
-        onUpdate && onUpdate(item);
+        onUpdate && onUpdate( { ...item, value: unit.value });
     }
     
     if (!isVisible) return null;

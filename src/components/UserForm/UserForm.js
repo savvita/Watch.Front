@@ -1,13 +1,21 @@
 import Button from '../Button/Button';
+import Error from '../Error/Error';
 
 import { useEffect, useState } from 'react';
 import { Form, Row, Label, Col, Input, FormFeedback } from 'reactstrap';
 
+import { useDispatch } from 'react-redux';
+import { updateAsync, getAsync } from '../../app/usersSlice';
+
 import './UserForm.css';
 
-const UserForm = ({ user, isVisible, onUpdate, onCancel }) => {
+const UserForm = ({ user, isVisible, onClose }) => {
+    const dispatch = useDispatch();
+
     const [login, setLogin] = useState({ value: user.userName, isValid: true });
     const [email, setEmail] = useState({ value: user.email, isValid: true });
+
+    const [errorTxt, setErrorTxt] = useState();
 
     useEffect(() => {
         if(!user) return;
@@ -31,16 +39,28 @@ const UserForm = ({ user, isVisible, onUpdate, onCancel }) => {
         }
     }
 
-    const onClose = (e) => {
+    const onCloseClick = (e) => {
         e.preventDefault();
-        onCancel && onCancel();
+        setErrorTxt("");
+        onClose && onClose();
     }
 
-    const onEdit = (e) => {
+    const onSaveClick = async (e) => {
         e.preventDefault();
-        user.userName = login.value;
-        user.email = email.value;
-        onUpdate && onUpdate(user);
+        const res = await dispatch(updateAsync({ ...user, userName: login.value, email: email.value }));
+        if(res.payload.code) {
+            if(res.payload.code === "login-is-registered") {
+                setErrorTxt("Login is already registered");
+            }
+            else {
+                setErrorTxt("Something went wrong. Sorry :(");
+            }
+        }
+        else {
+            dispatch(getAsync());
+            setErrorTxt("");
+            onClose && onClose();
+        }
     }
     
     if (!isVisible) return null;
@@ -69,9 +89,10 @@ const UserForm = ({ user, isVisible, onUpdate, onCancel }) => {
                         </Col>
                     </Row>
                 </Row>
+                <Error text={ errorTxt } />
                 <Row className="flex justify-content-center">
-                    <Button value="Ok" className="user-button" onClick={ onEdit } />
-                    <Button value="Cancel" className="user-button" onClick={ onClose } />
+                    <Button value="Ok" className="user-button" onClick={ onSaveClick } />
+                    <Button value="Cancel" className="user-button" onClick={ onCloseClick } />
                 </Row>
             </Form>
         </div>

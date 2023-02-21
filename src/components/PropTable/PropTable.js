@@ -5,16 +5,13 @@ import { Table } from 'reactstrap';
 import { FaPlusCircle } from 'react-icons/fa';
 import { useEffect, useState } from 'react'; 
 
-const PropTable = ({ title, loadItemsAsync, createItemAsync, updateItemAsync, deleteItemAsync }) => {
-    const [items, setItems] = useState([]);
+const PropTable = ({ title, items, loadItemsAsync, createItemAsync, updateItemAsync, deleteItemAsync }) => {
     const [item, setItem] = useState({ id: '', value: '' });
     const [modal, setModal] = useState(false); 
 
     const loadItems = async () => {
         if(!loadItemsAsync) return;
-        const res = await loadItemsAsync();
-
-        setItems(res);
+        await loadItemsAsync();
     };
 
     useEffect(() => {

@@ -1,7 +1,7 @@
 import Home from './layouts/Home/Home';
 import About from './layouts/About/About';
 import Orders from './layouts/Orders/Orders';
-import Users from './layouts/Users/Users';
+import Admin from './layouts/Admin/Admin';
 import Manager from './layouts/Manager/Manager';
 import Categories from './layouts/Categories/Categories';
 import Producers from './layouts/Producers/Producers';
@@ -18,7 +18,7 @@ const App = () => {
           <Route path="/" element={ <Home /> } />        
           <Route path="/about" element={ <About /> } />  
           <Route path="/myorders" element={ <Orders isManagerMode={ false } /> } />  
-          <Route path="/admin" element={ <Users /> } />  
+          <Route path="/admin" element={ <Admin /> } />  
           <Route path="/manager" element={ <Manager /> }>  
             <Route path="categories" element={ <Categories /> } />
             <Route path="producers" element={ <Producers /> } />

@@ -1,67 +1,69 @@
 import Button from '../Button/Button';
 import BasketDetail from '../BasketDetail/BasketDetail';
 import Error from '../Error/Error';
-import db from '../../database';
 
 import { Row, Form } from 'reactstrap';
 import { useEffect, useState } from 'react';
 
+import { getAsync, selectValue, clearAsync, updateAsync } from '../../app/basketSlice';
+import { createAsync } from '../../app/ordersSlice';
+import { useSelector, useDispatch } from 'react-redux';
+
 const Basket = ({ isVisible, onBuy, onClose }) => {
+    const basket = useSelector(selectValue);
+    const dispatch = useDispatch();
+
+
     const [errorTxt, setErrorTxt] = useState("\u00A0");
-    const [basket, setBasket] = useState({ details: []});
     const [total, setTotal] = useState(0);
 
     useEffect(() => {
-        const loadBasket = async () => {
-            let b = await db.getBasket();
-    
-            if(b) {
-                if(b.code) {
-                    setErrorTxt("Something went wrong. Try again later");
-                }
-                else {
-                    if(b.value) {
-                        setBasket(b.value);
-    
-                        let sum = 0;
-                        b.value.details.forEach(detail => sum += detail.count * detail.unitPrice);
-    
-                        setTotal(sum);
-                    }
-                    setErrorTxt("\u00A0");
-                }
-            }
-        };
-
-        loadBasket();
+        dispatch(getAsync());
     }, [isVisible]);
+
+    useEffect(() => {
+        let sum = 0;
+        basket.details.forEach(detail => sum += detail.count * detail.unitPrice);
+
+        setTotal(sum);
+    }, [basket]);
 
     const onBuyClick = async (e) => {
         e.preventDefault();
-        let result = await db.order();
 
-        if(result && result.value) {
-            alert(`Order id = ${result.value.id}`);
-            setBasket({ details: []});
-            setTotal(0);
-            onBuy && onBuy();
+        const res = await dispatch(createAsync());
+
+        if (res.payload.code) {
+            setErrorTxt("Something went wrong. Sorry :(");
         }
         else {
-            alert(`Something went wrong. Try again later`);
+            console.log(res);
+            dispatch(getAsync());
+            alert(`Order id = ${res.payload.id}`);
+            setErrorTxt("");
+            setTotal(0);
+            onBuy && onBuy();
         }
     }
 
     const onClearClick = async (e) => {
         e.preventDefault();
-        await db.deleteBasket();
-        setBasket({ details: []});
-        setTotal(0);
+        const res = await dispatch(clearAsync());
+
+        if (res.payload.code) {
+            setErrorTxt("Something went wrong. Sorry :(");
+        }
+        else {
+            dispatch(getAsync());
+            setErrorTxt("");
+            setTotal(0);
+        }
     }
 
     const onCloseClick = async (e) => {
         e.preventDefault();
         if(basket.details.length > 0) {
-            await db.updateBasket(basket);
+            await dispatch(updateAsync(basket));
         }
         onClose && onClose();
     }
@@ -71,15 +73,13 @@ const Basket = ({ isVisible, onBuy, onClose }) => {
             return;
         }
         
-        basket.details = basket.details.map(detail => detail.id === id ? { ...detail, count: count } : detail);
-        setBasket(basket);
+        const b = { ...basket, details: basket.details.map(detail => detail.id === id ? { ...detail, count: count } : detail) };
 
-        if(basket.details.length > 0) {
-            await db.updateBasket(basket);
-        }
+        await dispatch(updateAsync(b));
+        await dispatch(getAsync());
 
         let sum = 0;
-        basket.details.forEach(detail => sum += detail.count * detail.unitPrice);
+        b.details.forEach(detail => sum += detail.count * detail.unitPrice);
 
         setTotal(sum);
     }
