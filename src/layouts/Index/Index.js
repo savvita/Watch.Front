@@ -6,7 +6,7 @@ import CategoriesNav from '../../components/CategoriesNav/CategoriesNav';
 
 import { useState } from 'react';
 
-import { Row, UncontrolledCarousel } from 'reactstrap';
+import { Row } from 'reactstrap';
 
 const Index = () => {
     const [buyAdded, setBuyAdded] = useState(false);

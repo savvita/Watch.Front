@@ -1,7 +1,7 @@
 import WatchDetailRow from '../WatchDetailRow/WatchDetailRow';
 import WatchForm from '../WatchForm/WatchForm';
 
-import { Table, Input } from 'reactstrap';
+import { Table, Input, FormFeedback, FormGroup } from 'reactstrap';
 import { FaPlusCircle} from 'react-icons/fa';
 import { useEffect, useState } from 'react'; 
 
@@ -10,8 +10,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getAllAsync, deleteAsync, restoreAsync } from '../../app/watchesSlice';
 
 const WatchesTable = () => {
-    const watches = useSelector(selectWatches);
+    const values = useSelector(selectWatches);
     const dispatch = useDispatch();
+
+    const[watches, setWatches] = useState([]);
+    const[errorTxt, setErrorTxt] = useState([]);
 
     const [selected, setSelected] = useState([]);
     const [isChecked, setIsChecked] = useState(false);
@@ -38,7 +41,21 @@ const WatchesTable = () => {
 
     useEffect(() => {
         dispatch(getWatches());
+        setWatches(values);
     }, []);
+
+    useEffect(() => {
+        setWatches(values);
+    }, [values]);
+
+    useEffect(() => {
+        if(watches.length === 0) {
+            setErrorTxt('Not found. Sorry :(');
+        }
+        else {
+            setErrorTxt('');
+        }
+    }, [watches]);
 
     const showForm = (watch) => {
         setWatch(watch);
@@ -92,10 +109,19 @@ const WatchesTable = () => {
         });
     }
 
+    const filter = (e) => {
+        const value = e.target.value.toLowerCase();
+        setWatches(values.filter(x => x.model.toLowerCase().includes(value) || (x.producer && x.producer.producerName.toLowerCase().includes(value))));
+    }
+
     return (
     <div className="mt-3">
-        <h3 className="text-white">Watches <FaPlusCircle onClick={ showAddNewForm } /></h3>
-        <Table dark style={{ minWidth: '300px' }}>
+        <h3 className="text-white text-center">Watches <FaPlusCircle onClick={ showAddNewForm } /></h3>
+        <FormGroup  className="position-relative">
+            <Input name="search" placeholder="Search" type="search" onInput={ filter } invalid={ watches.length === 0 } />
+            <FormFeedback tooltip className="text-white">{ errorTxt }</FormFeedback>
+        </FormGroup>
+        <Table dark style={{ minWidth: '300px' }} className="mt-5">
             <thead>
                 <tr className="text-center">
                     <th scope="col">

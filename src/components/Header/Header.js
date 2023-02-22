@@ -28,7 +28,7 @@ const Header = ({ buyAdded, onBasketClosed }) => {
     const [auth, setAuth] = useState(false);
     const [isSignIn, setMode] = useState(true);
 
-    const [basket, setBasket] = useState(false || buyAdded);
+     const [basket, setBasket] = useState(false || buyAdded);
 
     useEffect(() => {
         setBasket(false || buyAdded);
@@ -55,7 +55,9 @@ const Header = ({ buyAdded, onBasketClosed }) => {
     const onAuthorize = () => {
         setAuth(false);
         setUser(token.getUserInfo());
-        window.location.reload();
+        if(location.pathname === '/admin' || location.pathname.startsWith('/manager')) {
+            window.location.reload();
+        }
     }
     
     const onBasketClose = () => {
@@ -81,6 +83,8 @@ const Header = ({ buyAdded, onBasketClosed }) => {
                         </Nav>
                     </Collapse>
                     { location.pathname === '/catalog' && <Input name="search" placeholder="Search" type="search" onInput={ (e) => dispatch(setModel(e.target.value)) } /> }
+                    { location.pathname.startsWith('/manager') && <h2 className="text-white">Manager Mode</h2> }
+                    { location.pathname.startsWith('/admin') && <h2 className="text-white">Admin Mode</h2> }
                 </Navbar>
                 <div className="d-flex justify-content-end pe-6">
                     <p className="text-white pe-4">{ user.username !== '' && `Hello, ${ user.username }` }</p>

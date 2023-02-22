@@ -1,13 +1,16 @@
 import PropDetailRow from '../PropDetailRow/PropDetailRow';
 import ItemForm from '../ItemForm/ItemForm';
 
-import { Table } from 'reactstrap';
+import { Table, Input, FormFeedback, FormGroup } from 'reactstrap';
 import { FaPlusCircle } from 'react-icons/fa';
 import { useEffect, useState } from 'react'; 
 
 const PropTable = ({ title, items, loadItemsAsync, createItemAsync, updateItemAsync, deleteItemAsync }) => {
     const [item, setItem] = useState({ id: '', value: '' });
     const [modal, setModal] = useState(false); 
+
+    const[values, setValues] = useState([]);
+    const[errorTxt, setErrorTxt] = useState('');
 
     const loadItems = async () => {
         if(!loadItemsAsync) return;
@@ -16,7 +19,21 @@ const PropTable = ({ title, items, loadItemsAsync, createItemAsync, updateItemAs
 
     useEffect(() => {
         loadItems();
+        setValues(items);
     }, []);
+
+    useEffect(() => {
+        setValues(items);
+    }, [items]);
+
+    useEffect(() => {
+        if(values.length === 0) {
+            setErrorTxt('Not found. Sorry :(');
+        }
+        else {
+            setErrorTxt('');
+        }
+    }, [values]);
 
     const updateItem = async (item) => {
 
@@ -51,10 +68,19 @@ const PropTable = ({ title, items, loadItemsAsync, createItemAsync, updateItemAs
         await loadItems();
     }
 
+    const filter = (e) => {
+        const value = e.target.value.toLowerCase();
+        setValues(items.filter(x => x.value.toLowerCase().includes(value)));
+    }
+
     return (
         <div>
-        <h3 className="text-white">{ title } <FaPlusCircle onClick={ () => editItem({ id: '', value: '' })} /></h3>
-        <Table dark>
+        <h3 className="text-white text-center">{ title } <FaPlusCircle onClick={ () => editItem({ id: '', value: '' })} /></h3>
+        <FormGroup  className="position-relative">
+            <Input name="search" placeholder="Search" type="search" onInput={ filter } invalid={ values.length === 0 } />
+            <FormFeedback tooltip className="text-white">{ errorTxt }</FormFeedback>
+        </FormGroup>
+        <Table dark className="mt-5">
             <thead>
                 <tr className="text-center">
                     <th scope="col">Id</th>
@@ -65,7 +91,7 @@ const PropTable = ({ title, items, loadItemsAsync, createItemAsync, updateItemAs
                 </tr>
             </thead>
             <tbody>
-                { items && items.map((item) => <PropDetailRow key={ item.id } item={ item } onEdit={ editItem } onDelete={ deleteItem } />) }
+                { values && values.map((item) => <PropDetailRow key={ item.id } item={ item } onEdit={ editItem } onDelete={ deleteItem } />) }
             </tbody>
         </Table>
         <ItemForm isVisible={ modal } item={ item } onCancel={ () => setModal(false) } onUpdate={ saveItem } />

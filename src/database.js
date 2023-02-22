@@ -163,6 +163,9 @@ const getProducers = async () => {
 }
 
 const getBasket = async () => {
+    if(!token.getToken()) {
+        return {};
+    }
     return await get(`${api}/baskets`);
 }
 

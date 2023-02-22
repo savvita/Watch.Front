@@ -1,23 +1,49 @@
 import OrderDetailRow from '../OrderDetailRow/OrderDetailRow';
 
-import { Table } from 'reactstrap';
-import { useEffect } from 'react';
+import { Table, Input, FormFeedback, FormGroup } from 'reactstrap';
+import { useEffect, useState } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { getAsync, selectValues } from '../../app/ordersSlice';
 
 const OrdersTable = ({ isManagerMode }) => {
-    const orders = useSelector(selectValues);
+    const values = useSelector(selectValues);
     const dispatch = useDispatch();
 
+    const[orders, setOrders] = useState([]);
+    const[errorTxt, setErrorTxt] = useState([]);
+
     useEffect(() => {
-        dispatch(getAsync());
+        dispatch(getAsync(isManagerMode));
+        setOrders(values);
     }, []);
+
+    useEffect(() => {
+        setOrders(values);
+    }, [values]);
+
+    useEffect(() => {
+        if(orders.length === 0) {
+            setErrorTxt('Not found. Sorry :(');
+        }
+        else {
+            setErrorTxt('');
+        }
+    }, [orders]);
+
+    const filter = (e) => {
+        const value = e.target.value.toLowerCase();
+        setOrders(values.filter(x => x.userId.includes(value)));
+    }
 
     return (
         <div>
-            <h3 className="text-white">Orders</h3>
-            <Table dark>
+            <h3 className="text-white text-center">Orders</h3>
+             { isManagerMode && <FormGroup  className="position-relative">
+                <Input name="search" placeholder="Search" type="search" onInput={ filter } invalid={ orders.length === 0 } />
+                <FormFeedback tooltip className="text-white">{ errorTxt }</FormFeedback>
+            </FormGroup> }
+            <Table dark className="mt-5">
                 <thead>
                     <tr className="text-center">
                         <th scope="col">Id</th>
