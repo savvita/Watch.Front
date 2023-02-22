@@ -9,6 +9,13 @@ export const getAsync = createAsyncThunk(
       return response.value;
     }
   );
+  export const getByIdAsync = createAsyncThunk(
+    'orders/getbyid',
+    async (state) => {
+      const response = await db.getOrderById(state);
+      return response.value;
+    }
+  );
   export const createAsync = createAsyncThunk(
     'orders/create',
     async () => {
@@ -46,7 +53,24 @@ export const ordersSlice = createSlice({
               })
               .addCase(getAsync.fulfilled, (state, action) => {
                 state.status = 'idle';
-                state.values = action.payload;
+                if(action.payload) {
+                  state.values = action.payload;
+                }
+                else {
+                    state.values = [];
+                }
+              })
+              .addCase(getByIdAsync.pending, (state) => {
+                state.status = 'loading';
+              })
+              .addCase(getByIdAsync.fulfilled, (state, action) => {
+                state.status = 'idle';
+                if(action.payload) {
+                  state.values = [ action.payload ];
+                }
+                else {
+                    state.values = [];
+                }
               })
               .addCase(createAsync.pending, (state) => {
                 state.status = 'loading';

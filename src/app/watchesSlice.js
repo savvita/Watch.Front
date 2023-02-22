@@ -139,6 +139,8 @@ export const watchesSlice = createSlice({
                     state.values = [];
                     state.hits = 0;
                 }
+
+                return state;
               });
           },
     }

@@ -35,7 +35,6 @@ const Content = ({ onBuy }) => {
         <div>
             <div className="d-flex flex-wrap flex-row justify-content-center">
                 { watches && watches.map(item => <Link key={ item.id } to={ `/watches/${ item.id }` } style={{ textDecoration: 'none' }}><Card watch={ item } onBuyClick={ onBuyClick } /></Link>) }
-                {/* { watches && watches.map(item => <Card key={ item.id } watch={ item } onBuyClick={ onBuyClick } />) } */}
             </div>
             { watches.length > 0 && <Pagination /> }
         </div>

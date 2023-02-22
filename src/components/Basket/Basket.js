@@ -37,7 +37,6 @@ const Basket = ({ isVisible, onBuy, onClose }) => {
             setErrorTxt("Something went wrong. Sorry :(");
         }
         else {
-            console.log(res);
             dispatch(getAsync());
             alert(`Order id = ${res.payload.id}`);
             setErrorTxt("");

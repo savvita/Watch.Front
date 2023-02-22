@@ -183,6 +183,16 @@ const getOrders = async (isManagerMode) => {
     return await get(url);
 }
 
+const getOrderById = async (id) => {
+    if(!token.getToken() || !id) {
+        return undefined;
+    }
+
+    let url = `${api}/orders/${id}`;
+
+    return await get(url);
+}
+
 const getUsers = async () => {
     if(!token.getToken()) {
         return undefined;
@@ -294,6 +304,7 @@ const functions = {
     getCategories: getCategories,
     getProducers: getProducers,
     getOrders: getOrders,
+    getOrderById: getOrderById,
     getUsers: getUsers,
     signIn: signIn,
     signUp: signUp,
