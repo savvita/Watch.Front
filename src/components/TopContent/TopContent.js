@@ -3,6 +3,7 @@ import TopCard from '../TopCard/TopCard';
 import { getAsync, selectValues } from '../../app/watchesSlice';
 import { addAsync } from '../../app/basketSlice';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { useEffect } from 'react';
 
@@ -28,7 +29,7 @@ const TopContent = ({ onBuy }) => {
     return (
         <div>
             <div className="d-flex flex-wrap flex-row justify-content-center">
-                { watches && watches.map(item => <TopCard key={ item.id } watch= { item } onBuyClick={ onBuyClick } />) }
+                { watches && watches.map(item => <Link key={ item.id } to={ `/watches/${ item.id }` } style={{ textDecoration: 'none' }}><TopCard watch= { item } onBuyClick={ onBuyClick } /></Link>) }
             </div>
         </div>
     );
