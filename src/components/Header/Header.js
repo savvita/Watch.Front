@@ -10,7 +10,7 @@ import { setModel } from '../../app/filtersSlice';
 
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, Input, NavLink } from 'reactstrap';
 
-import { NavLink as RRNavLink, useLocation, useNavigate } from 'react-router-dom';
+import { NavLink as RRNavLink, useLocation } from 'react-router-dom';
 
 import { FaShoppingBasket } from 'react-icons/fa';
 
@@ -21,7 +21,6 @@ const Header = ({ buyAdded, onBasketClosed }) => {
     const dispatch = useDispatch();
 
     const location = useLocation();
-    const navigate = useNavigate();
     const [user, setUser] = useState(token.getUserInfo());
     const [collapsed, setCollapsed] = useState(true);
     const toggleNavbar = () => setCollapsed(!collapsed);
@@ -56,7 +55,7 @@ const Header = ({ buyAdded, onBasketClosed }) => {
     const onAuthorize = () => {
         setAuth(false);
         setUser(token.getUserInfo());
-        location.reload();
+        window.location.reload();
     }
     
     const onBasketClose = () => {

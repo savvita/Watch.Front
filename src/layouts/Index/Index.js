@@ -13,8 +13,8 @@ const Index = () => {
     return (
         <div className="d-flex flex-column page-container">
             <Header buyAdded={ buyAdded } onBasketClosed={ () => setBuyAdded(false) } />
-            <CategoriesNav />
-            <Row className="ps-4 flex-grow-1">
+            {/* <CategoriesNav /> */}
+            <Row className="ps-4 flex-grow-1 border-top border-light pt-3">
                 <TopContent onBuy={ () => setBuyAdded(true) } />
             </Row>
             <Footer />

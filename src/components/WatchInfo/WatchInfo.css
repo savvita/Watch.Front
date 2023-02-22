@@ -1,0 +1,15 @@
+.watch-info_tabs {
+    color: #fff !important;
+    text-decoration: none;
+}
+
+.watch-info_tabs:hover {
+    color: #333 !important;
+    background-color: #ccc !important;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.active {
+    cursor: pointer;
+}

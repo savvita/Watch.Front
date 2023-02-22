@@ -18,6 +18,14 @@ export const getAsync = createAsyncThunk(
     }
   );
 
+  export const getByIdAsync = createAsyncThunk(
+    'watches/getbyid',
+    async (state) => {
+      const response = await db.getWatch(state);
+      return response;
+    }
+  );
+
 export const createAsync = createAsyncThunk(
     'watches/create',
     async (state) => {
@@ -117,12 +125,26 @@ export const watchesSlice = createSlice({
               .addCase(restoreAsync.fulfilled, (state, action) => {
                 state.status = 'idle';
                 return state;
+              })
+              .addCase(getByIdAsync.pending, (state) => {
+                state.status = 'loading';
+              })
+              .addCase(getByIdAsync.fulfilled, (state, action) => {
+                state.status = 'idle';
+                if(action.payload.value) {
+                  state.values = [ action.payload.value ];
+                  state.hits = action.payload.hits;
+                }
+                else {
+                    state.values = [];
+                    state.hits = 0;
+                }
               });
           },
     }
 );
 
-export const {  } = watchesSlice.actions
+// export const {  } = watchesSlice.actions
 
 export const selectValues = (state) => state.watches.values;
 export const selectHits = (state) => state.watches.hits;

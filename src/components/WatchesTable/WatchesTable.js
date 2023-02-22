@@ -95,7 +95,7 @@ const WatchesTable = () => {
     return (
     <div className="mt-3">
         <h3 className="text-white">Watches <FaPlusCircle onClick={ showAddNewForm } /></h3>
-        <Table dark>
+        <Table dark style={{ minWidth: '300px' }}>
             <thead>
                 <tr className="text-center">
                     <th scope="col">

@@ -13,7 +13,7 @@ const WatchCard = ({ watch, onBuyClick }) => {
                 src={ watch.imageUrl ?? {no_image}}
                 className="card-img-top"
             />
-            { watch.isPopular && <Badge color="danger" className="position-absolute top-0 end-0 fs-6">TOP</Badge> }
+            { watch.isPopular && <Badge color="danger" className="position-absolute top-0 end-0 fs-3">TOP</Badge> }
             <CardBody>
                 <CardTitle tag="h5">{ watch.model }</CardTitle>
                 <CardText>Category: { watch.category.categoryName }</CardText>
@@ -24,7 +24,7 @@ const WatchCard = ({ watch, onBuyClick }) => {
                 <ListGroupItem>Price: { watch.price } &#8372;</ListGroupItem>
             </ListGroup>
 
-            <Button color="success" onClick={ () => onBuyClick && onBuyClick(watch) }>Buy</Button>
+            <Button color="success" onClick={ (e) => { e.stopPropagation(); e.preventDefault(); onBuyClick && onBuyClick(watch) } }>Buy</Button>
         </Card>
     );
 }

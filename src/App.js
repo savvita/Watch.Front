@@ -7,6 +7,7 @@ import Manager from './layouts/Manager/Manager';
 import Categories from './layouts/Categories/Categories';
 import Producers from './layouts/Producers/Producers';
 import Watches from './layouts/Watches/Watches';
+import WatchPage from './layouts/WatchPage/WatchPage';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -27,6 +28,7 @@ const App = () => {
             <Route path="watches" element={ <Watches /> } />
             <Route path="orders" element={ <Orders isManagerMode={ true } /> } />
           </Route>
+          <Route path="/watches/:id" element={ <WatchPage /> } />
         </Routes>
       </Router>
     </div>

@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 
 import Card from '../Card/Card';
 import Pagination from '../Pagination/Pagination';
@@ -6,7 +5,10 @@ import Pagination from '../Pagination/Pagination';
 import { getAsync as getWatches, selectValues as selectWatches} from '../../app/watchesSlice';
 import { selectValues as selectFilters } from '../../app/filtersSlice';
 import { addAsync } from '../../app/basketSlice';
+
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const Content = ({ onBuy }) => {
 
@@ -32,7 +34,8 @@ const Content = ({ onBuy }) => {
     return (
         <div>
             <div className="d-flex flex-wrap flex-row justify-content-center">
-                { watches && watches.map(item => <Card key={ item.id } watch= { item } onBuyClick={ onBuyClick } />) }
+                { watches && watches.map(item => <Link key={ item.id } to={ `/watches/${ item.id }` } style={{ textDecoration: 'none' }}><Card watch={ item } onBuyClick={ onBuyClick } /></Link>) }
+                {/* { watches && watches.map(item => <Card key={ item.id } watch={ item } onBuyClick={ onBuyClick } />) } */}
             </div>
             { watches.length > 0 && <Pagination /> }
         </div>
