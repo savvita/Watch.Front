@@ -24,7 +24,7 @@ const AccountMenu = ({ user, onSignIn, onSignUp, onLogOut }) => {
                             { user && user.isAdmin && <Link to='/admin'><DropdownItem>Admin mode</DropdownItem></Link> }
                             { user && user.isManager && <Link to='/manager'><DropdownItem>Manager mode</DropdownItem></Link> }
                             <DropdownItem divider />
-                            <Link onClick={ onLogOut }><DropdownItem>Log out</DropdownItem></Link>
+                            <Link to='/' onClick={ onLogOut }><DropdownItem>Log out</DropdownItem></Link>
                         </>
                     }
                 </DropdownMenu>

@@ -1,0 +1,47 @@
+.topcard {
+    width: 450px;
+    overflow: hidden;
+    transition: all 200ms ease-in;
+}
+
+.topcard:hover {
+    box-shadow: 0px 0px 10px #fff;
+    cursor: pointer;
+}
+
+.topcard_img{
+    min-width: 100%;
+    height: 250px;
+    object-fit: cover;
+    overflow: hidden;
+}
+
+.topcard_footer {
+    position: absolute;
+    bottom: 0;
+}
+
+.topcard_price {
+    position: absolute;
+    bottom: 4rem;
+}
+
+@media (max-width: 640px) {
+    .topcard {
+        width: 500px;
+        overflow: hidden;
+    }
+
+    .topcard_img{
+        height: 350px;
+    }
+    .topcard_footer {
+        position: relative;
+        bottom: 0;
+    }
+    
+    .topcard_price {
+        position: relative;
+        bottom: 0;
+    }
+}

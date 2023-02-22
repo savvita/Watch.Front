@@ -6,29 +6,10 @@ import CategoriesNav from '../../components/CategoriesNav/CategoriesNav';
 
 import { useState } from 'react';
 
-import { useSelector } from 'react-redux';
-import { selectValues } from '../../app/producersSlice';
-
 import { Row, Col } from 'reactstrap';
 
-function Home() {
-    const producers = useSelector(selectValues);
-
-
+function Catalog() {
     const [buyAdded, setBuyAdded] = useState(false);
-
-    const [isIndex, setIsIndex] = useState(true);
-
-    // useEffect(() => {
-    //     setIsReady(true);
-    // }, []);
-
- 
-    // const onCategoriesChange = (id) => {
-    //     filter(categories, setCategories, id);
-    //     setIsIndex(false);
-    // }
-
 
     return (
         <div className="d-flex flex-column page-container">
@@ -41,11 +22,10 @@ function Home() {
                 <Col md="9" sm="12">
                     <Content onBuy={ () => setBuyAdded(true) } />
                 </Col>
-                {/* { isReady && <Content perPage='2' isIndex={ isIndex } filters={ filters } onBuy={ () => setBuyAdded(true) } /> } */}
             </Row>
             <Footer />
         </div>
     );
 }
 
-export default Home;
+export default Catalog;

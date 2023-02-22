@@ -2,10 +2,12 @@ import { Card, CardBody, CardTitle, CardText, ListGroup, ListGroupItem, Button, 
 
 import no_image from './No_image_available.png';
 
+import './Card.css';
+
 const WatchCard = ({ watch, onBuyClick }) => {
 
     return (
-        <Card color="dark" inverse className="m-3 border-light" style={{ width: '18rem' }}>
+        <Card color="dark" inverse className="m-3 border-light card" style={{ width: '18rem' }}>
             <img
                 alt={ watch.model }
                 src={ watch.imageUrl ?? {no_image}}

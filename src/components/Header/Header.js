@@ -10,7 +10,7 @@ import { setModel } from '../../app/filtersSlice';
 
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, Input, NavLink } from 'reactstrap';
 
-import { NavLink as RRNavLink, useLocation } from 'react-router-dom';
+import { NavLink as RRNavLink, useLocation, useNavigate } from 'react-router-dom';
 
 import { FaShoppingBasket } from 'react-icons/fa';
 
@@ -21,6 +21,7 @@ const Header = ({ buyAdded, onBasketClosed }) => {
     const dispatch = useDispatch();
 
     const location = useLocation();
+    const navigate = useNavigate();
     const [user, setUser] = useState(token.getUserInfo());
     const [collapsed, setCollapsed] = useState(true);
     const toggleNavbar = () => setCollapsed(!collapsed);
@@ -55,6 +56,7 @@ const Header = ({ buyAdded, onBasketClosed }) => {
     const onAuthorize = () => {
         setAuth(false);
         setUser(token.getUserInfo());
+        location.reload();
     }
     
     const onBasketClose = () => {
@@ -73,12 +75,13 @@ const Header = ({ buyAdded, onBasketClosed }) => {
                     <Collapse navbar isOpen={ !collapsed }>
                         <Nav className="me-auto" navbar>
                             <NavLink tag={RRNavLink} to="/">Home</NavLink>
+                            <NavLink tag={RRNavLink} to="/catalog">Catalog</NavLink>
                             <NavLink tag={RRNavLink} to="/about">About</NavLink>
 
                             <AccountMenu user={ user } onSignIn={ onSignIn } onSignUp={ onSignUp } onLogOut={ onLogOut } />
                         </Nav>
                     </Collapse>
-                    { location.pathname === '/' && <Input name="search" placeholder="Search" type="search" onInput={ (e) => dispatch(setModel(e.target.value)) } /> }
+                    { location.pathname === '/catalog' && <Input name="search" placeholder="Search" type="search" onInput={ (e) => dispatch(setModel(e.target.value)) } /> }
                 </Navbar>
                 <div className="d-flex justify-content-end pe-6">
                     <p className="text-white pe-4">{ user.username !== '' && `Hello, ${ user.username }` }</p>

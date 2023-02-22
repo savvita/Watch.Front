@@ -1,4 +1,5 @@
-import Home from './layouts/Home/Home';
+import Index from './layouts/Index/Index';
+import Catalog from './layouts/Catalog/Catalog';
 import About from './layouts/About/About';
 import Orders from './layouts/Orders/Orders';
 import Admin from './layouts/Admin/Admin';
@@ -15,7 +16,8 @@ const App = () => {
     <div className="container p-0">
       <Router>
         <Routes>
-          <Route path="/" element={ <Home /> } />        
+          <Route path="/" exact element={ <Index /> } />        
+          <Route path="/catalog" element={ <Catalog /> } />        
           <Route path="/about" element={ <About /> } />  
           <Route path="/myorders" element={ <Orders isManagerMode={ false } /> } />  
           <Route path="/admin" element={ <Admin /> } />  
