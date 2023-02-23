@@ -1,20 +1,28 @@
 import WatchDetailRow from '../WatchDetailRow/WatchDetailRow';
 import WatchForm from '../WatchForm/WatchForm';
 
-import { Table, Input, FormFeedback, FormGroup } from 'reactstrap';
+import { Table, Input, FormFeedback, FormGroup, NavbarToggler, Navbar, Collapse } from 'reactstrap';
 import { FaPlusCircle} from 'react-icons/fa';
 import { useEffect, useState } from 'react'; 
 
 import { getAllAsync as getWatches, selectValues as selectWatches } from '../../app/watchesSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllAsync, deleteAsync, restoreAsync } from '../../app/watchesSlice';
+import { getAsync as getProducers, selectValues as selectProducers } from '../../app/producersSlice';
+import { getAsync as getCategories, selectValues as selectCategories, switchChecked as switchCategory} from '../../app/categoriesSlice';
+import FiltersOffcanvas from '../FiltersOffcanvas/FiltersOffcanvas';
 
 const WatchesTable = () => {
     const values = useSelector(selectWatches);
+    
+    const producers = useSelector(selectProducers);
+    const categories = useSelector(selectCategories);
     const dispatch = useDispatch();
+
 
     const[watches, setWatches] = useState([]);
     const[errorTxt, setErrorTxt] = useState([]);
+    const [filters, setFilters] = useState({ model: '', producers: [], categories: [], onSale: [], isPopular: []});
 
     const [selected, setSelected] = useState([]);
     const [isChecked, setIsChecked] = useState(false);
@@ -41,6 +49,8 @@ const WatchesTable = () => {
 
     useEffect(() => {
         dispatch(getWatches());
+        dispatch(getProducers());
+        dispatch(getCategories());
         setWatches(values);
     }, []);
 
@@ -108,17 +118,50 @@ const WatchesTable = () => {
             "imageUrl": '' 
         });
     }
+   
+    useEffect(() => {
+        let w = values;
+        
+        if(filters.model) {
+            w = values.filter( x => 
+                x.model.toLowerCase().includes(filters.model));
+        }
 
-    const filter = (e) => {
-        const value = e.target.value.toLowerCase();
-        setWatches(values.filter(x => x.model.toLowerCase().includes(value) || (x.producer && x.producer.producerName.toLowerCase().includes(value))));
-    }
+        if(filters.categories.length > 0) {
+            w = w.filter(x => filters.categories.includes(x.category.id));
+        }
+
+        if(filters.producers.length > 0) {
+            w = w.filter(x => filters.producers.includes(x.producer.id));
+        }
+
+        if(filters.onSale.length > 0) {
+            w = w.filter(x => filters.onSale.includes(x.onSale));
+        }
+
+        if(filters.isPopular.length > 0) {
+            w = w.filter(x => filters.isPopular.includes(x.isPopular));
+        }
+
+        setWatches(w);
+    }, [filters]);
+
+    const [collapsed, setCollapsed] = useState(true);
+
+  const toggleNavbar = () => setCollapsed(!collapsed);
 
     return (
     <div className="mt-3">
         <h3 className="text-white text-center">Watches <FaPlusCircle onClick={ showAddNewForm } /></h3>
+        <Navbar color="faded" light>
+            <NavbarToggler onClick={toggleNavbar} className="me-2" style={{ backgroundColor: '#fff', padding: '5px 20px' }}>Filters</NavbarToggler>
+            <Collapse isOpen={!collapsed} navbar>
+            <FiltersOffcanvas categories={ categories } producers={ producers } onChange={ (items) => setFilters({...items, model: filters.model }) } />
+            </Collapse>
+        </Navbar>
+
         <FormGroup  className="position-relative">
-            <Input name="search" placeholder="Search" type="search" onInput={ filter } invalid={ watches.length === 0 } />
+            <Input name="search" placeholder="Search" type="search" onInput={ (e) => setFilters({ ...filters, model: e.target.value.toLowerCase() }) } invalid={ watches.length === 0 } />
             <FormFeedback tooltip className="text-white">{ errorTxt }</FormFeedback>
         </FormGroup>
         <Table dark style={{ minWidth: '300px' }} className="mt-5">

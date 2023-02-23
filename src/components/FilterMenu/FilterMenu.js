@@ -1,8 +1,8 @@
 import { Input, ButtonGroup, FormGroup, Label } from 'reactstrap';
 
-const FilterMenu = ({ title, items, onChange }) => {
+const FilterMenu = ({ title, items, onChange, className }) => {
     return (
-        <div>
+        <div className={ className && className }>
             <h3>{ title }</h3>
             <ButtonGroup vertical className="p-0 mb-2 d-flex justify-content-center me-0">
                 { 
