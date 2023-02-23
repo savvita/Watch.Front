@@ -35,3 +35,7 @@ img.small {
 .page-container {
   min-height: 100vh;
 }
+
+.bread a {
+  color: #fff;
+}

@@ -1,10 +1,21 @@
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 
+import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import { Link } from 'react-router-dom';
+
 const About = () => {
     return (
         <div className="d-flex flex-column page-container">
             <Header />
+            <Breadcrumb className='bread'>
+                <BreadcrumbItem>
+                    <Link to="/">Home</Link>
+                </BreadcrumbItem>
+                <BreadcrumbItem active>
+                    About
+                </BreadcrumbItem>
+            </Breadcrumb>
             <div className="d-flex flex-wrap flex-row justify-content-center border-top border-light">
                 <h2 className="text-white m-4">Lorem Ipsum</h2>
                 <p className="text-white">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut dolor fermentum mi vehicula venenatis. Integer id enim orci. Vivamus eget pellentesque nisl. Nam vel nisl sem. Nam mollis aliquam enim. Praesent ut ullamcorper neque. Nam quis molestie massa, ac molestie ipsum. Cras in felis quam. Pellentesque tristique lobortis ultrices. Donec sit amet porta velit, et venenatis est. Etiam convallis tellus elit, ut pharetra nunc scelerisque non.</p>
