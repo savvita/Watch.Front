@@ -2,8 +2,9 @@ import db from '../../database';
 
 import { useEffect, useState } from 'react';
 import { Row, Col, Input } from 'reactstrap';
+import { FaRegWindowClose } from 'react-icons/fa';
 
-import no_image from './No_image_available.png';
+import no_image from './No_image_available.png'; 
 
 const BasketDetail = ({ detail, onChange }) => {
     const [watch, setWatch] = useState({ });
@@ -20,16 +21,24 @@ const BasketDetail = ({ detail, onChange }) => {
         }
 
         loadWatch();
-    }, []);
+    }, [detail]);
 
     const onInput = (e) => {
         setCount(e.target.value);
         onChange && onChange(detail.id, e.target.value);
     }
 
+    const deleteDetail = () => {
+        setCount(0);
+        onChange && onChange(detail.id, 0);
+    }
+
     return (
         <Row className="mb-3">
-            <Col xs="3"><img alt={watch.model} src={watch.imageUrl ?? { no_image }} className="card-img-top small" /></Col>
+            <Col xs="3">
+                <FaRegWindowClose onClick={ deleteDetail } />
+                <img alt={watch.model} src={watch.imageUrl ?? { no_image }} className="card-img-top small" />
+                </Col>
             <Col xs="9">
                 <Row><h5>{`${watch.producer && watch.producer.producerName} ${watch.model}`}</h5></Row>
                 <Row>

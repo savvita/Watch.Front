@@ -20,7 +20,7 @@ const TopCard = ({ watch, onBuyClick }) => {
                         <CardText tag="h3" className="topcard_price">Price: { watch.price } &#8372;</CardText>
                     </CardBody>
                     <CardFooter className="topcard_footer d-flex">
-                        <Button onClick={ () => onBuyClick && onBuyClick(watch) } value="Buy" className="card_btn flex-grow-1" />
+                        <Button onClick={ (e) => { e.stopPropagation(); e.preventDefault(); onBuyClick && onBuyClick(watch) } } value="Buy" className="card_btn flex-grow-1" />
                     </CardFooter>
                 </Col>
             </Row>

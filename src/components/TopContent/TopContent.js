@@ -1,4 +1,5 @@
 import TopCard from '../TopCard/TopCard';
+import token from '../../token';
 
 import { getAsync, selectValues } from '../../app/watchesSlice';
 import { addAsync } from '../../app/basketSlice';
@@ -16,6 +17,9 @@ const TopContent = ({ onBuy }) => {
     const dispatch = useDispatch();
 
     const onBuyClick = async (watch) => {
+        if(!token.getToken()) {
+            return;
+        }
         let result = await dispatch(addAsync(watch));
         if(!result.code) {
             onBuy && onBuy();
