@@ -1,6 +1,6 @@
 import token from './token';
 
-const api = 'https://watchwebapi20230228182952.azurewebsites.net';
+const api = 'https://watchwebapi20230228182952.azurewebsites.net/api';
 //const api = 'https://localhost:7231/api';
 
 const get = async (url) => {
