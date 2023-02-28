@@ -33,7 +33,7 @@ const WatchPage = () => {
     return (
         <div className="d-flex flex-column page-container">
             <Header buyAdded={ buyAdded } onBasketClosed={ () => setBuyAdded(false) }  />
-            <Breadcrumb className='bread'>
+            {/* <Breadcrumb className='bread'>
                 <BreadcrumbItem>
                     <Link to="/">Home</Link>
                 </BreadcrumbItem>
@@ -43,7 +43,7 @@ const WatchPage = () => {
                 <BreadcrumbItem active>
                     { watch.producer.producerName } {watch.model }
                 </BreadcrumbItem>
-            </Breadcrumb>
+            </Breadcrumb> */}
             <div className="flex-grow-1 border-top border-light pt-5">
                 <Watch watch={ watch } onBuyClick={ () => setBuyAdded(true) } />
             </div>
